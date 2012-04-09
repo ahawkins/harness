@@ -50,4 +50,10 @@ class GaugeTest < MiniTest::Unit::TestCase
 
     assert_in_delta 1, 0.01, gauge.value
   end
+
+  def test_initializes_time_if_not_set
+    gauge = Harness::Gauge.new
+
+    assert gauge.time
+  end
 end

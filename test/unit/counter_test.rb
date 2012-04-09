@@ -60,4 +60,10 @@ class CounterTest < MiniTest::Unit::TestCase
 
     assert_equal 5, counter.value
   end
+
+  def test_initializes_time_if_not_set
+    counter = Harness::Counter.new
+
+    assert counter.time
+  end
 end

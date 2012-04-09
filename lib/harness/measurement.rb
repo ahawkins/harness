@@ -6,6 +6,8 @@ module Harness
       attributes.each_pair do |name, value|
         send "#{name}=", value
       end
+
+      self.time ||= Time.now
     end
 
     def log
