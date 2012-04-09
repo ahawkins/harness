@@ -63,4 +63,6 @@ require 'harness/integration/action_view'
 require 'harness/integration/action_mailer'
 require 'harness/integration/active_support'
 
+require 'harness/railtie' if defined?(Rails)
+
 Harness.consumer.consume
