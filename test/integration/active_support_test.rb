@@ -1,32 +1,53 @@
 require 'test_helper'
 
-class ActiveSupportTestCase < MiniTest::Unit::TestCase
+class ActiveSupportIntegration < MiniTest::Unit::TestCase
   def setup
     Harness.adapter = :null
-    gauges.clear ; counters.clear
+    gauges.clear
   end
 
-  def test_a_gauge_is_logged
-    ActiveSupport::Notifications.instrument "gauge_test.harness", :gauge => true do |args|
-      # do nothing
-    end
+  def test_logs_cache_read
+    instrument "cache_read"
 
-    refute_empty gauges.select {|g| g.name = "gauge_test.harness" }, "Expected #{gauges.inspect} to contain a gauge_test.harness result"
+    assert_gauge_logged "cache_read.active_support"
   end
 
-  def test_a_counter_is_logged
-    ActiveSupport::Notifications.instrument "counter_test.harness", :counter => { :value => 5 } do |args|
-      # do nothing
-    end
+  def test_logs_cache_generate
+    instrument "cache_generate"
 
-    refute_empty counters.select {|g| g.name = "counter_test.harness" }, "Expected #{gauges.inspect} to contain a counter_test.harness result"
+    assert_gauge_logged "cache_generate.active_support"
+  end
+
+  def test_logs_cache_fetch_hit
+    instrument "cache_fetch_hit"
+
+    assert_gauge_logged "cache_fetch_hit.active_support"
+  end
+
+  def test_logs_cache_write
+    instrument "cache_write"
+
+    assert_gauge_logged "cache_write.active_support"
+  end
+
+  def test_logs_cache_delete
+    instrument "cache_delete"
+
+    assert_gauge_logged "cache_delete.active_support"
+  end
+
+  private
+  def instrument(event)
+    ActiveSupport::Notifications.instrument "#{event}.active_support" do |*args|
+      # nada
+    end
+  end
+
+  def assert_gauge_logged(name)
+    refute_empty gauges.select {|g| g.name = name }, "Expected #{gauges.inspect} to contain a #{name} result"
   end
 
   def gauges
     Harness::NullAdapter.gauges
-  end
-
-  def counters
-    Harness::NullAdapter.counters
   end
 end

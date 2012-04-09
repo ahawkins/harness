@@ -61,4 +61,9 @@ require 'harness/consumer'
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/null_adapter'
 
+require 'harness/integration/action_controller'
+require 'harness/integration/action_view'
+require 'harness/integration/action_mailer'
+require 'harness/integration/active_support'
+
 Harness.consumer.consume
