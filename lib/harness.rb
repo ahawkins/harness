@@ -8,16 +8,20 @@ require 'active_support/notifications'
 require 'active_support/core_ext/string'
 
 module Harness
-  def self.adapter=(val)
-    if val.is_a? Symbol
-      @adapter = "Harness::#{val.to_s.classify}Adapter".constantize
-    else
-      @adapter = val
+  class Config
+    attr_reader :adapter
+
+    def adapter=(val)
+      if val.is_a? Symbol
+        @adapter = "Harness::#{val.to_s.classify}Adapter".constantize
+      else
+        @adapter = val
+      end
     end
   end
 
-  def self.adapter
-    @adapter
+  def self.config
+    @config ||= Config.new
   end
 
   def self.queue
