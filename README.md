@@ -58,7 +58,7 @@ You can do the same with a counter
 ```ruby
 class MyClass
   def important_method(stuff)
-    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => true do
+    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => 11 do
       do_important_stuff
     end
   end
