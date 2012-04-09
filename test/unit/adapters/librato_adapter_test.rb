@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LibratoAdapterTest < MiniTest::Unit::TestCase
   def setup
-    @adapter = Harness::LibratoAdapter.new
+    @adapter = Harness::LibratoAdapter
 
     @gauge = Harness::Gauge.new
     @gauge.name = "foo"

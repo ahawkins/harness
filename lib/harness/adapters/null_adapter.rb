@@ -8,20 +8,12 @@ module Harness
       @counters ||= []
     end
 
-    def log_gauge(gauge)
-      self.class.gauges << gauge
+    def self.log_gauge(gauge)
+      gauges << gauge
     end
 
-    def log_counter(counter)
-      self.class.counters << counter
-    end
-
-    def gauges
-      self.class.gauges
-    end
-
-    def counters
-      self.class.counters
+    def self.log_counter(counter)
+      counters << counter
     end
   end
 end

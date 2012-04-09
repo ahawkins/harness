@@ -5,7 +5,7 @@ class NullAdapterTest < MiniTest::Unit::TestCase
     Harness::NullAdapter.counters.clear
     Harness::NullAdapter.gauges.clear
 
-    @adapter = Harness::NullAdapter.new
+    @adapter = Harness::NullAdapter
   end
 
   def test_log_gauge_adds_to_gauges

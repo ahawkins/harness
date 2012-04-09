@@ -14,7 +14,7 @@ module Harness
       @config ||= Config.new
     end
 
-    def log_gauge(gauge)
+    def self.log_gauge(gauge)
       post({:gauges => [{
         :name => gauge.name,
         :value => gauge.value,
@@ -23,7 +23,7 @@ module Harness
       }]})
     end
 
-    def log_counter(counter)
+    def self.log_counter(counter)
       post({:counters => [{
         :name => counter.name,
         :value => counter.value,
@@ -33,7 +33,7 @@ module Harness
     end
 
     private
-    def post(params)
+    def self.post(params)
       unless config.email && config.token
         raise "Adapter not configured. Ensure email and token are set."
       end
@@ -53,10 +53,6 @@ module Harness
       end
 
       true
-    end
-
-    def config
-      self.class.config
     end
   end
 end
