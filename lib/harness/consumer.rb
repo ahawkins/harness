@@ -25,7 +25,7 @@ module Harness
     end
 
     def adapter
-      Harness.adapter
+      Harness.config.adapter
     end
 
     def mutex

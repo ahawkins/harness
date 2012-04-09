@@ -1,15 +1,15 @@
 require 'test_helper'
 
-class HarnessTest < MiniTest::Unit::TestCase
+class HarnessModuleTest < MiniTest::Unit::TestCase
   def test_can_set_the_adapter_with_a_symbol
-    Harness.adapter = :null
+    Harness.config.adapter = :null
 
-    assert  Harness.adapter
+    assert_equal Harness::NullAdapter, Harness.config.adapter
   end
 
   def test_can_set_the_adapter_with_a_class
-    Harness.adapter = Harness::NullAdapter
+    Harness.config.adapter = Harness::NullAdapter
 
-    assert_equal Harness::NullAdapter, Harness.adapter
+    assert_equal Harness::NullAdapter, Harness.config.adapter
   end
 end

@@ -1,17 +1,12 @@
 require 'test_helper'
 
-class ActiveSupportTestCase < MiniTest::Unit::TestCase
-  def setup
-    Harness.adapter = :null
-    gauges.clear ; counters.clear
-  end
-
+class ActiveSupportTestCase < IntegrationTest
   def test_a_gauge_is_logged
     ActiveSupport::Notifications.instrument "gauge_test.harness", :gauge => true do |args|
       # do nothing
     end
 
-    refute_empty gauges.select {|g| g.name = "gauge_test.harness" }, "Expected #{gauges.inspect} to contain a gauge_test.harness result"
+    assert_gauge_logged "gauge_test.harness"
   end
 
   def test_a_counter_is_logged
@@ -19,14 +14,6 @@ class ActiveSupportTestCase < MiniTest::Unit::TestCase
       # do nothing
     end
 
-    refute_empty counters.select {|g| g.name = "counter_test.harness" }, "Expected #{gauges.inspect} to contain a counter_test.harness result"
-  end
-
-  def gauges
-    Harness::NullAdapter.gauges
-  end
-
-  def counters
-    Harness::NullAdapter.counters
+    assert_counter_logged "counter_test.harness"
   end
 end

@@ -1,11 +1,6 @@
 require 'test_helper'
 
-class ActiveSupportIntegration < MiniTest::Unit::TestCase
-  def setup
-    Harness.adapter = :null
-    gauges.clear
-  end
-
+class ActiveSupportIntegration < IntegrationTest
   def test_logs_cache_read
     instrument "cache_read"
 
@@ -41,13 +36,5 @@ class ActiveSupportIntegration < MiniTest::Unit::TestCase
     ActiveSupport::Notifications.instrument "#{event}.active_support" do |*args|
       # nada
     end
-  end
-
-  def assert_gauge_logged(name)
-    refute_empty gauges.select {|g| g.name = name }, "Expected #{gauges.inspect} to contain a #{name} result"
-  end
-
-  def gauges
-    Harness::NullAdapter.gauges
   end
 end

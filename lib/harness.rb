@@ -10,6 +10,7 @@ require 'active_support/core_ext/string'
 module Harness
   class Config
     attr_reader :adapter
+    attr_accessor :test_mode
 
     def adapter=(val)
       if val.is_a? Symbol
@@ -34,7 +35,7 @@ module Harness
 
   def self.log(measurement)
     queue << measurement
-    wait if test_mode
+    wait if config.test_mode
   end
 
   def self.mutex
@@ -43,14 +44,6 @@ module Harness
 
   def self.wait
     sleep 0.01 until consumer.finished? && queue.empty?
-  end
-
-  def self.test_mode
-    @test_mode
-  end
-
-  def self.test_mode=(mode)
-    @test_mode = mode
   end
 end
 

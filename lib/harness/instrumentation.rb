@@ -2,8 +2,8 @@ ActiveSupport::Notifications.subscribe %r{.+} do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
 
   if event.payload[:gauge]
-    Harness.log Harness::Gauge.from_event(event)
+    Harness::Gauge.from_event(event).log
   elsif event.payload[:counter]
-    Harness.log Harness::Counter.from_event(event)
+    Harness::Counter.from_event(event).log
   end
 end

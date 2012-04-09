@@ -1,11 +1,6 @@
 require 'test_helper'
 
-class ActionControllerIntegration < MiniTest::Unit::TestCase
-  def setup
-    Harness.adapter = :null
-    gauges.clear
-  end
-
+class ActionControllerIntegration < IntegrationTest
   def test_logs_write_fragment
     instrument "write_fragment"
 
@@ -48,18 +43,9 @@ class ActionControllerIntegration < MiniTest::Unit::TestCase
     assert_gauge_logged "send_file.action_controller"
   end
 
-  private
   def instrument(event)
     ActiveSupport::Notifications.instrument "#{event}.action_controller" do |*args|
       # nada
     end
-  end
-
-  def assert_gauge_logged(name)
-    refute_empty gauges.select {|g| g.name = name }, "Expected #{gauges.inspect} to contain a #{name} result"
-  end
-
-  def gauges
-    Harness::NullAdapter.gauges
   end
 end

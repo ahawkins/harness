@@ -1,11 +1,6 @@
 require 'test_helper'
 
-class HarnessTest < MiniTest::Unit::TestCase
-  def setup
-    Harness.adapter = :null
-    gauges.clear ; counters.clear
-  end
-
+class HarnessTest < IntegrationTest
   def test_gauges_are_logged
     gauge = Harness::Gauge.new :name => 'minitest'
     gauge.log
@@ -18,14 +13,5 @@ class HarnessTest < MiniTest::Unit::TestCase
     counter.log
 
     assert_includes counters, counter
-  end
-
-  private
-  def gauges
-    Harness::NullAdapter.gauges
-  end
-
-  def counters
-    Harness::NullAdapter.counters
   end
 end
