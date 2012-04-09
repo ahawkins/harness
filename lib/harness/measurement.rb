@@ -9,7 +9,7 @@ module Harness
     end
 
     def log
-      Harness.adapter.send "log_#{self.class.to_s.demodulize.underscore}", self
+      Harness.log self
     end
   end
 end

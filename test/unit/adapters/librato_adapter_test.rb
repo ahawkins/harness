@@ -5,13 +5,13 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     @adapter = Harness::LibratoAdapter
 
     @gauge = Harness::Gauge.new
-    @gauge.name = "foo"
+    @gauge.name = "fake-gauge"
     @gauge.source = "minitest"
     @gauge.time = Time.now
     @gauge.value = 55
 
     @counter = Harness::Counter.new
-    @counter.name = "bar"
+    @counter.name = "fake-counter"
     @counter.source = "minitest"
     @counter.time = Time.now
     @counter.value = 55
@@ -21,6 +21,8 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   end
 
   def teardown
+    WebMock.reset!
+
     Harness::LibratoAdapter.config.email = nil
     Harness::LibratoAdapter.config.token = nil
   end

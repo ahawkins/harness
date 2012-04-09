@@ -1,5 +1,7 @@
 require "harness/version"
 
+require 'thread'
+
 require 'active_support/notifications'
 require 'active_support/core_ext/string'
 
@@ -15,11 +17,44 @@ module Harness
   def self.adapter
     @adapter
   end
+
+  def self.queue
+    @queue ||= Queue.new
+  end
+
+  def self.consumer
+    Thread.current["#{object_id}_harness_consumer_"] ||= Consumer.new
+  end
+
+  def self.log(measurement)
+    queue << measurement
+    wait if test_mode
+  end
+
+  def self.mutex
+    @mutex ||= Mutex.new
+  end
+
+  def self.wait
+    sleep(0.01) until consumer.finished?
+  end
+
+  def self.test_mode
+    @test_mode
+  end
+
+  def self.test_mode=(mode)
+    @test_mode = mode
+  end
 end
 
 require 'harness/measurement'
 require 'harness/counter'
 require 'harness/gauge'
 
+require 'harness/consumer'
+
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/null_adapter'
+
+Harness.consumer.consume
