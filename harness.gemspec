@@ -14,4 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "harness"
   gem.require_paths = ["lib"]
   gem.version       = Harness::VERSION
+
+  gem.add_dependency "activesupport", "~> 3"
+
+  gem.add_development_dependency "simplecov"
 end
