@@ -36,7 +36,7 @@ module Harness
   end
 
   def self.wait
-    sleep(0.01) until consumer.finished?
+    sleep 0.01 until consumer.finished? && queue.empty?
   end
 
   def self.test_mode
