@@ -1,5 +1,5 @@
 module Harness
-  class NullAdapter
+  class MemoryAdapter
     def self.gauges
       @gauges ||= []
     end

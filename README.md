@@ -120,6 +120,10 @@ config.librato.email = 'example@example.com'
 config.librato.token = 'your-api-key'
 ```
 
+Measurements are completely ignored in the test env. They are processed
+in development mode, but not sent to the external service. Everything is
+logged in production.
+
 ## Contributing
 
 1. Fork it

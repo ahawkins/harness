@@ -14,10 +14,11 @@ WebMock.disable_net_connect!
 Thread.abort_on_exception = true
 
 Harness.config.test_mode = true
+Harness.config.enabled = true
 
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup
-    Harness.config.adapter = :null
+    Harness.config.adapter = :memory
     gauges.clear ; counters.clear
   end
 
@@ -30,10 +31,10 @@ class IntegrationTest < MiniTest::Unit::TestCase
   end
 
   def gauges
-    Harness::NullAdapter.gauges
+    Harness::MemoryAdapter.gauges
   end
 
   def counters
-    Harness::NullAdapter.counters
+    Harness::MemoryAdapter.counters
   end
 end

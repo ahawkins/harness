@@ -2,16 +2,25 @@ module Harness
   class Railtie < ::Rails::Railtie
     config.harness = Harness.config
 
-    initializer "harness.test_mode" do
-      config.harness.test_mode = Rails.env.test?
+    initializer "harness.thread" do
+      Thread.abort_on_exception = Rails.env.development?
     end
 
-    initializer "harness.thread" do
-      Thread.abort_on_exception = Rails.env.test? || Rails.env.development?
+    initializer "harness.enabled" do |app|
+      app.config.harness.enabled = true
+    end
+
+    initializer "harness.test_mode" do
+      config.harness.enabled = false if Rails.env.test?
     end
 
     initializer "harness.adapter" do |app|
-      app.config.harness.adapter = :null
+      case Rails.env
+      when 'development'
+        app.config.harness.adapter = :null
+      else
+        app.config.harness.adapter = :librato
+      end
     end
   end
 end

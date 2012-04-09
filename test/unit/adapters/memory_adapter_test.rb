@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class NullAdapterTest < MiniTest::Unit::TestCase
+class MemoryAdapterTest < MiniTest::Unit::TestCase
   def setup
-    Harness::NullAdapter.counters.clear
-    Harness::NullAdapter.gauges.clear
+    Harness::MemoryAdapter.counters.clear
+    Harness::MemoryAdapter.gauges.clear
 
-    @adapter = Harness::NullAdapter
+    @adapter = Harness::MemoryAdapter
   end
 
   def test_log_gauge_adds_to_gauges
