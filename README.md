@@ -71,10 +71,54 @@ for that gauge or counter.
 Harness will do all the extra work in sending these metrics to whatever
 service you're using.
 
+## One Off Gauges and Counters
+
+You can instantiate `Harness::Counter` and `Harness::Guage` wherever you
+want. Events from `ActiveSupport` are just converted to these classes
+under the covers anyways. You can use these class if you want to take
+peridocial measurements or tracking something that happens outside the
+application.
+
+```ruby
+gauge = Harness::Gauge.new
+gauge.name = "foo.bar"
+gauge.time # defaults to Time.now
+gauge.value = readings_from_my_server
+gauge.log
+
+counter = Harness::Counter.new
+counter.name = "foo.bar"
+counter.time # defaults to Time.now
+counter.value = read_total_users_in_database
+counter.log
+
+# Both class take an option hash
+
+gauge = Harness::Guage.new :time => Time.now, :name => 'foo.bar'
+counter = Harness::Counter.new :time => Time.now, :name => 'foo.bar'
+```
+
+## Configuration
+
+```ruby
+Harness.config.adapter = :librato
+
+Harness.config.librato.email = 'example@example.com'
+Harness.config.librato.token = 'your-api-key'
+```
+
 ## Rails Integration
 
 Harness will automatically log metrics coming from `ActionPack`,
 `ActiveRecord`, `ActiveSupport` and `ActionMailer`.
+
+You can configure Harness from `application.rb`
+
+```ruby
+config.harness.adapter = :librato
+config.librato.email = 'example@example.com'
+config.librato.token = 'your-api-key'
+```
 
 ## Contributing
 
