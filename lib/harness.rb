@@ -2,6 +2,8 @@ require "harness/version"
 
 require 'thread'
 
+require 'securerandom'
+
 require 'active_support/notifications'
 require 'active_support/core_ext/string'
 
@@ -51,6 +53,8 @@ end
 require 'harness/measurement'
 require 'harness/counter'
 require 'harness/gauge'
+
+require 'harness/instrumentation'
 
 require 'harness/consumer'
 
