@@ -9,5 +9,9 @@ module Harness
     initializer "harness.thread" do
       Thread.abort_on_exception = Rails.env.test? || Rails.env.development?
     end
+
+    initializer "harness.adapter" do |app|
+      app.config.harness.adapter = :null
+    end
   end
 end
