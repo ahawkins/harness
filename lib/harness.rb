@@ -19,6 +19,14 @@ module Harness
         @adapter = val
       end
     end
+
+    def method_missing(name, *args, &block)
+      begin
+        "Harness::#{name.to_s.classify}Adapter".constantize.config
+      rescue NameError
+        super
+      end
+    end
   end
 
   def self.config
