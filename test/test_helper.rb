@@ -14,7 +14,6 @@ WebMock.disable_net_connect!
 Thread.abort_on_exception = true
 
 Harness.config.test_mode = true
-Harness.config.enabled = true
 
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup

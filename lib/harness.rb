@@ -10,7 +10,7 @@ require 'active_support/core_ext/string'
 module Harness
   class Config
     attr_reader :adapter
-    attr_accessor :test_mode, :enabled
+    attr_accessor :test_mode
 
     def adapter=(val)
       if val.is_a? Symbol
@@ -42,8 +42,6 @@ module Harness
   end
 
   def self.log(measurement)
-    return unless config.enabled
-
     queue << measurement
     wait if config.test_mode
   end
@@ -67,6 +65,7 @@ require 'harness/consumer'
 
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/memory_adapter'
+require 'harness/adapters/null_adapter'
 
 require 'harness/integration/action_controller'
 require 'harness/integration/action_view'
