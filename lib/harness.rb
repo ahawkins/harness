@@ -9,3 +9,4 @@ require 'harness/counter'
 require 'harness/gauge'
 
 require 'harness/adapters/librato_adapter'
+require 'harness/adapters/null_adapter'
