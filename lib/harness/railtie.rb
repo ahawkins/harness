@@ -1,6 +1,6 @@
 module Harness
   class Railtie < ::Rails::Railtie
-    config.harness = Harnes.config
+    config.harness = Harness.config
 
     initializer "harness.test_mode" do
       config.harness.test_mode = Rails.env.test?
