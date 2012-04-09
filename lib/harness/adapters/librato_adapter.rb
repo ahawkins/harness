@@ -15,8 +15,10 @@ module Harness
     end
 
     def self.log_gauge(gauge)
+      raise WebServiceError if gauge.name.length >= 63
+
       post({:gauges => [{
-        :name => gauge.name,
+        :name => sanitize(gauge.name),
         :value => gauge.value,
         :time => gauge.time.to_i,
         :source => gauge.source
@@ -24,8 +26,10 @@ module Harness
     end
 
     def self.log_counter(counter)
+      raise WebServiceError if counter.name.length >= 63
+
       post({:counters => [{
-        :name => counter.name,
+        :name => sanitize(counter.name),
         :value => counter.value,
         :time => counter.time.to_i,
         :source => counter.source
@@ -53,6 +57,10 @@ module Harness
       end
 
       true
+    end
+
+    def self.sanitize(name)
+      name.gsub(/\./, '-')
     end
   end
 end
