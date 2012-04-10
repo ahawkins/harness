@@ -37,7 +37,7 @@ module Harness
         require 'harness/queues/sidekiq_queue'
         Harness.config.queue = :sidekiq
       else
-        Harness.config.queue = :syncronous
+        Harness.config.queue = Harness::SyncronousQueue
       end
     end
   end
