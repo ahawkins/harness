@@ -13,8 +13,6 @@ WebMock.disable_net_connect!
 
 Thread.abort_on_exception = true
 
-Harness.config.syncronous = true
-
 Harness.logger = Logger.new '/dev/null'
 
 Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:host => 'localhost', :port => '6379')
@@ -22,6 +20,8 @@ Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:ho
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup
     Harness.config.adapter = :memory
+    Harness.config.queue = :syncronous
+
     gauges.clear ; counters.clear
     redis.flushall
   end

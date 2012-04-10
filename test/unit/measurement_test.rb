@@ -33,4 +33,18 @@ class MeasurementTest < MiniTest::Unit::TestCase
   def test_initializes_time
     assert @measurement.time
   end
+
+  def test_attributes
+    hash = @measurement.attributes
+
+    assert hash.has_key?(:id)
+    assert hash.has_key?(:name)
+    assert hash.has_key?(:source)
+    assert hash.has_key?(:time)
+    assert hash.has_key?(:units)
+  end
+
+  def test_json
+    assert_equal @measurement.to_json, @measurement.attributes.to_json
+  end
 end

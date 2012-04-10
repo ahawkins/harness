@@ -14,14 +14,21 @@ module Harness
   class LoggingError < RuntimeError ; end
 
   class Config
-    attr_reader :adapter
-    attr_accessor :syncronous
+    attr_reader :adapter, :queue
 
     def adapter=(val)
       if val.is_a? Symbol
         @adapter = "Harness::#{val.to_s.classify}Adapter".constantize
       else
         @adapter = val
+      end
+    end
+
+    def queue=(val)
+      if val.is_a? Symbol
+        @queue= "Harness::#{val.to_s.classify}Queue".constantize
+      else
+        @queue= val
       end
     end
 
@@ -38,25 +45,8 @@ module Harness
     @config ||= Config.new
   end
 
-  def self.queue
-    @queue ||= Queue.new
-  end
-
-  def self.consumer
-    Thread.current["#{object_id}_harness_consumer_"] ||= Consumer.new
-  end
-
   def self.log(measurement)
-    queue << measurement
-    wait if config.syncronous
-  end
-
-  def self.mutex
-    @mutex ||= Mutex.new
-  end
-
-  def self.wait
-    sleep 0.01 until consumer.finished? && queue.empty?
+    config.queue.push measurement
   end
 
   def self.logger
@@ -88,7 +78,9 @@ require 'harness/gauge'
 
 require 'harness/instrumentation'
 
-require 'harness/consumer'
+require 'harness/job'
+
+require 'harness/queues/syncronous_queue'
 
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/memory_adapter'
@@ -100,8 +92,6 @@ require 'harness/integration/action_mailer'
 require 'harness/integration/active_support'
 
 require 'harness/railtie' if defined?(Rails)
-
-Harness.consumer.consume
 
 require 'logger'
 

@@ -13,5 +13,19 @@ module Harness
     def log
       Harness.log self
     end
+
+    def attributes
+      { 
+        :id => id,
+        :name => name,
+        :source => source,
+        :time => time,
+        :units => units,
+      }
+    end
+
+    def to_json
+      attributes.to_json
+    end
   end
 end

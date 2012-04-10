@@ -13,6 +13,18 @@ class HarnessModuleTest < MiniTest::Unit::TestCase
     assert_equal Harness::MemoryAdapter, Harness.config.adapter
   end
 
+  def test_can_set_the_queue_with_a_symbol
+    Harness.config.queue = :syncronous
+
+    assert_equal Harness::SyncronousQueue, Harness.config.queue
+  end
+
+  def test_can_set_the_queue_with_a_class
+    Harness.config.adapter = Harness::SyncronousQueue
+
+    assert_equal Harness::SyncronousQueue, Harness.config.queue
+  end
+
   def test_uses_method_missing_to_configure_adapters
     Harness.config.librato.email = 'foo'
 
