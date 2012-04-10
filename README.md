@@ -71,6 +71,21 @@ for that gauge or counter.
 Harness will do all the extra work in sending these metrics to whatever
 service you're using.
 
+## Customzing
+
+You can pash a hash to `:counter` or `:gauge` to initialize the
+measurement your own way.
+
+```ruby
+class MyClass
+  def important_method(stuff)
+    ActiveSupport::Notifications.instrument "important_method.my_class", :gauge => { :id => 'custom-id', :name => "My Measurement" } do
+      do_important_stuff
+    end
+  end
+end
+```
+
 ## One Off Gauges and Counters
 
 You can instantiate `Harness::Counter` and `Harness::Guage` wherever you
