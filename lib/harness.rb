@@ -19,7 +19,7 @@ module Harness
 
     def adapter=(val)
       if val.is_a? Symbol
-        @adapter = "Harness::#{val.to_s.classify}Adapter".constantize
+        @adapter = "Harness::#{val.to_s.camelize}Adapter".constantize
       else
         @adapter = val
       end
@@ -27,7 +27,7 @@ module Harness
 
     def queue=(val)
       if val.is_a? Symbol
-        @queue= "Harness::#{val.to_s.classify}Queue".constantize
+        @queue= "Harness::#{val.to_s.camelize}Queue".constantize
       else
         @queue= val
       end
@@ -35,7 +35,7 @@ module Harness
 
     def method_missing(name, *args, &block)
       begin
-        "Harness::#{name.to_s.classify}Adapter".constantize.config
+        "Harness::#{name.to_s.camelize}Adapter".constantize.config
       rescue NameError
         super
       end
