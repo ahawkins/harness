@@ -15,7 +15,7 @@ module Harness
 
   class Config
     attr_reader :adapter
-    attr_accessor :test_mode
+    attr_accessor :syncronous
 
     def adapter=(val)
       if val.is_a? Symbol
@@ -48,7 +48,7 @@ module Harness
 
   def self.log(measurement)
     queue << measurement
-    wait if config.test_mode
+    wait if config.syncronous
   end
 
   def self.mutex

@@ -13,7 +13,7 @@ WebMock.disable_net_connect!
 
 Thread.abort_on_exception = true
 
-Harness.config.test_mode = true
+Harness.config.syncronous = true
 
 Harness.logger = Logger.new '/dev/null'
 
