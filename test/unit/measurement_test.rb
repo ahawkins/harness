@@ -64,5 +64,6 @@ class MeasurementTest < MiniTest::Unit::TestCase
     assert hash.has_key?(:source)
     assert hash.has_key?(:time)
     assert hash.has_key?(:units)
+    assert hash.has_key?(:value)
   end
 end

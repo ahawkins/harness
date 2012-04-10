@@ -18,5 +18,7 @@ class ResqueTest < IntegrationTest
     instrument "test-counter", :counter => true
 
     assert_counter_logged "test-counter"
+
+    assert_equal 1, counters.first.value
   end
 end

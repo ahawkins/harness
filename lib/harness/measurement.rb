@@ -30,7 +30,8 @@ module Harness
         :name => name,
         :source => source,
         :time => time,
-        :units => units
+        :units => units,
+        :value => value
       }
     end
   end

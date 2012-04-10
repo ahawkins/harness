@@ -28,5 +28,7 @@ class SidekiqTest < IntegrationTest
     Harness::SidekiqQueue::SendCounter.new.perform args
 
     assert_counter_logged "test-counter"
+
+    assert_equal 1, counters.first.value
   end
 end
