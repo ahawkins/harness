@@ -45,7 +45,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_gauge_name_is_sanitize
+  def test_gauge_name_is_sanitized
     @gauge.name = "process_action.action_controller"
 
     json = {
@@ -108,7 +108,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_counter_is_logged
+  def test_counter__name_is_sanitized
     @counter.name = "total_requests.action_controller"
 
     json = {

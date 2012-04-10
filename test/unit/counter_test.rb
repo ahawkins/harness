@@ -5,26 +5,6 @@ class CounterTest < MiniTest::Unit::TestCase
     @counter = Harness::Counter.new
   end
 
-  def test_has_a_name_attribute
-    assert @counter.respond_to?(:name)
-    assert @counter.respond_to?(:name=)
-  end
-
-  def test_has_a_source_attribute
-    assert @counter.respond_to?(:source)
-    assert @counter.respond_to?(:source=)
-  end
-
-  def test_has_a_time_attribute
-    assert @counter.respond_to?(:time)
-    assert @counter.respond_to?(:time=)
-  end
-
-  def test_has_a_value_attribute
-    assert @counter.respond_to?(:value)
-    assert @counter.respond_to?(:value=)
-  end
-
   def test_sets_name_from_event
     event = ActiveSupport::Notifications::Event.new "name", Time.now, Time.now, nil, {}
 
@@ -61,9 +41,21 @@ class CounterTest < MiniTest::Unit::TestCase
     assert_equal 5, counter.value
   end
 
-  def test_initializes_time_if_not_set
-    counter = Harness::Counter.new
+  def test_sets_description_from_event
+    base = Time.now
 
-    assert counter.time
+    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :counter => { :description => 'foo' }
+
+    counter = Harness::Counter.from_event event
+
+    assert_equal 'foo', counter.description
+  end
+
+  def test_sets_display_name_from_event
+    event = ActiveSupport::Notifications::Event.new "name", Time.now, Time.now, nil, :counter => { :display => 'Box #1' }
+
+    counter = Harness::Counter.from_event event
+
+    assert_equal "Box #1", counter.display
   end
 end
