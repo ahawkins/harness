@@ -81,21 +81,24 @@ application.
 
 ```ruby
 gauge = Harness::Gauge.new
-gauge.name = "foo.bar"
+gauge.id = "foo.bar"
+gauge.name = "Foo's Bar"
 gauge.time # defaults to Time.now
 gauge.value = readings_from_my_server
+gauge.units = 'bytes'
 gauge.log
 
 counter = Harness::Counter.new
-counter.name = "foo.bar"
+counter.id = "foo.bar"
+counter.name = "# of Foo bars"
 counter.time # defaults to Time.now
 counter.value = read_total_users_in_database
 counter.log
 
 # Both class take an option hash
 
-gauge = Harness::Guage.new :time => Time.now, :name => 'foo.bar'
-counter = Harness::Counter.new :time => Time.now, :name => 'foo.bar'
+gauge = Harness::Guage.new :time => Time.now, :id => 'foo.bar'
+counter = Harness::Counter.new :time => Time.now, :id => 'foo.bar'
 ```
 
 ## Configuration
