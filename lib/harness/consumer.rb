@@ -4,7 +4,7 @@ module Harness
       Thread.new do
         while measurement = queue.pop
           begin
-            logger.debug "Processing Measurement: #{measurement.inspect}"
+            logger.debug "[Harness] Processing Measurement: #{measurement.inspect}"
 
             case measurement.class.to_s.demodulize.underscore.to_sym
             when :gauge
@@ -13,9 +13,9 @@ module Harness
               adapter.log_counter measurement
             end
           rescue LoggingError => ex
-            logger.debug "Logging measurement failed! Server Said: #{ex}"
+            logger.debug "[Harness] Logging measurement failed! Server Said: #{ex}"
             logger.debug ex.backtrace.join("\n")
-            logger.warn "Could not post measurement! Enable debug logging to see full errors"
+            logger.warn "[Harness] Could not post measurement! Enable debug logging to see full errors"
           ensure
             mutex.synchronize { @finished = queue.empty? }
           end
