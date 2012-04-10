@@ -8,6 +8,8 @@ require 'active_support/notifications'
 require 'active_support/core_ext/string'
 
 module Harness
+  class LoggingError < RuntimeError ; end
+
   class Config
     attr_reader :adapter
     attr_accessor :test_mode
@@ -53,6 +55,14 @@ module Harness
   def self.wait
     sleep 0.01 until consumer.finished? && queue.empty?
   end
+
+  def self.logger
+    @logger
+  end
+
+  def self.logger=(logger)
+    @logger = logger
+  end
 end
 
 require 'harness/measurement'
@@ -75,3 +85,7 @@ require 'harness/integration/active_support'
 require 'harness/railtie' if defined?(Rails)
 
 Harness.consumer.consume
+
+require 'logger'
+
+Harness.logger = Logger.new $stdout

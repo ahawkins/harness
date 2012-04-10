@@ -4,8 +4,6 @@ require 'net/http'
 
 module Harness
   class LibratoAdapter
-    class WebServiceError < RuntimeError ; end
-
     class Config 
       attr_accessor :email, :token
     end
@@ -15,7 +13,7 @@ module Harness
     end
 
     def self.log_gauge(gauge)
-      raise WebServiceError if gauge.id.length > 63
+      raise Harness::LoggingError if gauge.id.length > 63
 
       post({:gauges => [{
         :name => sanitize(gauge.id),
@@ -28,7 +26,7 @@ module Harness
     end
 
     def self.log_counter(counter)
-      raise WebServiceError if counter.id.length > 63
+      raise Harness::LoggingError if counter.id.length > 63
 
       post({:counters => [{
         :name => sanitize(counter.id),
@@ -57,7 +55,7 @@ module Harness
 
         response = http.request request
 
-        raise WebServiceError, response.body unless response.code.to_i == 200
+        raise Harness::LoggingError, response.body unless response.code.to_i == 200
       end
 
       true

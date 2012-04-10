@@ -16,5 +16,9 @@ module Harness
         app.config.harness.adapter = :librato
       end
     end
+
+    initializer "harness.logger" do |app|
+      Harness.logger = Rails.logger
+    end
   end
 end

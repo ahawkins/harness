@@ -15,6 +15,8 @@ Thread.abort_on_exception = true
 
 Harness.config.test_mode = true
 
+Harness.logger = Logger.new '/dev/null'
+
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup
     Harness.config.adapter = :memory

@@ -3,14 +3,22 @@ module Harness
     def consume
       Thread.new do
         while measurement = queue.pop
-          case measurement.class.to_s.demodulize.underscore.to_sym
-          when :gauge
-            adapter.log_gauge measurement
-          when :counter
-            adapter.log_counter measurement
-          end
+          begin
+            logger.debug "Processing Measurement: #{measurement.inspect}"
 
-          mutex.synchronize { @finished = queue.empty? }
+            case measurement.class.to_s.demodulize.underscore.to_sym
+            when :gauge
+              adapter.log_gauge measurement
+            when :counter
+              adapter.log_counter measurement
+            end
+          rescue LoggingError => ex
+            logger.debug "Logging measurement failed! Server Said: #{ex}"
+            logger.debug ex.backtrace.join("\n")
+            logger.warn "Could not post measurement! Enable debug logging to see full errors"
+          ensure
+            mutex.synchronize { @finished = queue.empty? }
+          end
         end
       end
     end
@@ -30,6 +38,10 @@ module Harness
 
     def mutex
       Harness.mutex
+    end
+
+    def logger
+      Harness.logger
     end
   end
 end
