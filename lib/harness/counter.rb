@@ -3,7 +3,7 @@ module Harness
     def self.from_event(event)
       if event.payload[:counter].is_a? Hash
         counter = new event.payload[:counter]
-      elsif event.payload[:counter].is_a? Symbol
+      elsif event.payload[:counter].is_a?(Symbol) || event.payload[:counter].is_a?(String)
         counter = new :id => event.payload[:counter].to_s
       else
         counter = new

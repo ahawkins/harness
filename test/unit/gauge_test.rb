@@ -55,6 +55,16 @@ class GaugeTest < MiniTest::Unit::TestCase
     assert_equal 'foo', gauge.id
   end
 
+  def test_sets_id_from_payload_if_string
+    base = Time.now
+
+    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :gauge => 'foo'
+
+    gauge = Harness::Gauge.from_event event
+
+    assert_equal 'foo', gauge.id
+  end
+
   def test_initializes_time_if_not_set
     gauge = Harness::Gauge.new
 

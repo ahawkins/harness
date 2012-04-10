@@ -8,7 +8,7 @@ module Harness
     def self.from_event(event)
       if event.payload[:gauge].is_a? Hash
         gauge = new event.payload[:gauge]
-      elsif event.payload[:gauge].is_a? Symbol
+      elsif event.payload[:gauge].is_a?(Symbol) || event.payload[:gauge].is_a?(String)
         gauge = new :id => event.payload[:gauge].to_s
       else
         gauge = new
