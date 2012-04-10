@@ -1,7 +1,6 @@
 module Harness
   class Measurement
-    attr_accessor :name, :source, :time, :value,
-      :description, :display, :units
+    attr_accessor :id, :name, :source, :time, :value, :units
 
     def initialize(attributes = {})
       attributes.each_pair do |name, value|
@@ -9,7 +8,6 @@ module Harness
       end
 
       self.time ||= Time.now
-      self.units ||= :milliseconds
     end
 
     def log

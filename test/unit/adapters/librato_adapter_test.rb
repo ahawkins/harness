@@ -5,16 +5,19 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     @adapter = Harness::LibratoAdapter
 
     @gauge = Harness::Gauge.new
-    @gauge.name = "fake-gauge"
+    @gauge.id = "fake-gauge"
+    @gauge.name = "Fake Gauge"
     @gauge.source = "minitest"
     @gauge.time = Time.now
     @gauge.value = 55
 
     @counter = Harness::Counter.new
-    @counter.name = "fake-counter"
+    @counter.id = "fake-counter"
+    @counter.name = "Fake Counter"
     @counter.source = "minitest"
     @counter.time = Time.now
     @counter.value = 55
+    @counter.units = :bytes
 
     Harness::LibratoAdapter.config.email = email
     Harness::LibratoAdapter.config.token = token
@@ -30,10 +33,12 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   def test_gauge_is_logged
     json = {
       :gauges => [{
-        :name => @gauge.name,
+        :name => @gauge.id,
+        :display_name => @gauge.name,
         :value => @gauge.value,
-        :time => @gauge.time.to_i,
-        :source => @gauge.source
+        :measure_time => @gauge.time.to_i,
+        :source => @gauge.source,
+        :attributes => { :display_units_short => @gauge.units }
       }]
     }.to_json
 
@@ -45,15 +50,17 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_gauge_name_is_sanitized
-    @gauge.name = "process_action.action_controller"
+  def test_gauge_id_is_sanitized
+    @gauge.id = "process_action.action_controller"
 
     json = {
       :gauges => [{
         :name => "process_action-action_controller",
+        :display_name => @gauge.name,
         :value => @gauge.value,
-        :time => @gauge.time.to_i,
-        :source => @gauge.source
+        :measure_time => @gauge.time.to_i,
+        :source => @gauge.source,
+        :attributes => { :display_units_short => @gauge.units }
       }]
     }.to_json
 
@@ -64,6 +71,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert @adapter.log_gauge(@gauge)
     assert_requested expected_request
   end
+
 
   def test_logging_gague_raises_an_exception
     stub_request(:post, %r{metrics}).to_return(:status => 500, :body => "message")
@@ -73,8 +81,8 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_logging_gauge_raises_an_exception_when_name_is_too_long
-    @gauge.name = "f" * 64
+  def test_logging_gauge_raises_an_exception_when_id_is_too_long
+    @gauge.id = "f" * 64
 
     assert_raises Harness::LibratoAdapter::WebServiceError do
       @adapter.log_gauge @gauge
@@ -93,10 +101,12 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   def test_counter_is_logged
     json = {
       :counters => [{
-        :name => @counter.name,
+        :name => @counter.id,
+        :display_name => @counter.name,
         :value => @counter.value,
-        :time => @counter.time.to_i,
-        :source => @counter.source
+        :measure_time => @counter.time.to_i,
+        :source => @counter.source,
+        :attributes => { :display_units_short => @counter.units }
       }]
     }.to_json
 
@@ -108,15 +118,17 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_counter__name_is_sanitized
-    @counter.name = "total_requests.action_controller"
+  def test_counter_id_is_sanitized
+    @counter.id = "total_requests.action_controller"
 
     json = {
       :counters => [{
         :name => "total_requests-action_controller",
+        :display_name => @counter.name,
         :value => @counter.value,
-        :time => @counter.time.to_i,
-        :source => @counter.source
+        :measure_time => @counter.time.to_i,
+        :source => @counter.source,
+        :attributes => { :display_units_short => @counter.units }
       }]
     }.to_json
 
@@ -145,8 +157,8 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_logging_counter_raises_an_exception_when_name_is_too_long
-    @counter.name = "f" * 64
+  def test_logging_counter_raises_an_exception_when_id_is_too_long
+    @counter.id = "f" * 64
 
     assert_raises Harness::LibratoAdapter::WebServiceError do
       @adapter.log_counter @counter

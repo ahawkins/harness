@@ -5,9 +5,9 @@ class MeasurementTest < MiniTest::Unit::TestCase
     @measurement = Harness::Measurement.new
   end
 
-  def test_has_a_name_attribute
-    assert @measurement.respond_to?(:name)
-    assert @measurement.respond_to?(:name=)
+  def test_has_an_id_attribute
+    assert @measurement.respond_to?(:id)
+    assert @measurement.respond_to?(:id=)
   end
 
   def test_has_a_source_attribute
@@ -25,21 +25,12 @@ class MeasurementTest < MiniTest::Unit::TestCase
     assert @measurement.respond_to?(:value=)
   end
 
-  def test_has_a_description_attribute
-    assert @measurement.respond_to?(:description)
-    assert @measurement.respond_to?(:description=)
-  end
-
-  def test_has_a_display_attribute
-    assert @measurement.respond_to?(:display)
-    assert @measurement.respond_to?(:display=)
+  def test_has_a_name_attribute
+    assert @measurement.respond_to?(:name)
+    assert @measurement.respond_to?(:name=)
   end
 
   def test_initializes_time
     assert @measurement.time
-  end
-
-  def test_initializes_units
-    assert_equal :milliseconds, @measurement.units
   end
 end

@@ -15,24 +15,28 @@ module Harness
     end
 
     def self.log_gauge(gauge)
-      raise WebServiceError if gauge.name.length >= 63
+      raise WebServiceError if gauge.id.length > 63
 
       post({:gauges => [{
-        :name => sanitize(gauge.name),
+        :name => sanitize(gauge.id),
+        :display_name => gauge.name,
         :value => gauge.value,
-        :time => gauge.time.to_i,
-        :source => gauge.source
+        :measure_time => gauge.time.to_i,
+        :source => gauge.source,
+        :attributes => { :display_units_short => gauge.units }
       }]})
     end
 
     def self.log_counter(counter)
-      raise WebServiceError if counter.name.length >= 63
+      raise WebServiceError if counter.id.length > 63
 
       post({:counters => [{
-        :name => sanitize(counter.name),
+        :name => sanitize(counter.id),
+        :display_name => counter.name,
         :value => counter.value,
-        :time => counter.time.to_i,
-        :source => counter.source
+        :measure_time => counter.time.to_i,
+        :source => counter.source,
+        :attributes => { :display_units_short => counter.units }
       }]})
     end
 

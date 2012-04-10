@@ -1,5 +1,10 @@
 module Harness
   class Gauge < Measurement
+    def initialize(attributes = {})
+      super
+      self.units ||= :ms
+    end
+
     def self.from_event(event)
       if event.payload[:gauge].is_a? Hash
         gauge = new event.payload[:gauge]
@@ -7,8 +12,8 @@ module Harness
         gauge = new
       end
 
-      gauge.name = event.name
-      gauge.value = event.duration / 1000
+      gauge.id = event.name
+      gauge.value = event.duration
 
       gauge
     end

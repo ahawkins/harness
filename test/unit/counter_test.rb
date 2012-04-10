@@ -10,7 +10,7 @@ class CounterTest < MiniTest::Unit::TestCase
 
     counter = Harness::Counter.from_event event
 
-    assert_equal "name", counter.name
+    assert_equal "name", counter.id
   end
 
   def tests_sets_source_from_event_payload
@@ -41,21 +41,13 @@ class CounterTest < MiniTest::Unit::TestCase
     assert_equal 5, counter.value
   end
 
-  def test_sets_description_from_event
+  def test_sets_name_from_event
     base = Time.now
 
-    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :counter => { :description => 'foo' }
+    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :counter => { :name => 'foo' }
 
     counter = Harness::Counter.from_event event
 
-    assert_equal 'foo', counter.description
-  end
-
-  def test_sets_display_name_from_event
-    event = ActiveSupport::Notifications::Event.new "name", Time.now, Time.now, nil, :counter => { :display => 'Box #1' }
-
-    counter = Harness::Counter.from_event event
-
-    assert_equal "Box #1", counter.display
+    assert_equal 'foo', counter.name
   end
 end
