@@ -1,28 +1,28 @@
 module Harness
-  class ResqueQueue
+  class SidekiqQueue
     class SendGauge < Job
-      @queue = :high
+      include Sidekiq::Worker
 
-      def self.perform(attributes)
+      def perform(attributes)
         gauge = Gauge.new attributes
-        new.log gauge
+        log gauge
       end
     end
 
     class SendCounter < Job
-      @queue = :high
+      include Sidekiq::Worker
 
-      def self.perform(attributes)
+      def perform(attributes)
         counter = Counter.new attributes
-        new.log counter
+        log counter
       end
     end
 
     def self.push(measurement)
       if measurement.is_a? Gauge
-        Resque.enqueue SendGauge, measurement.attributes
+        SendGauge.perform_async measurement.attributes
       elsif measurement.is_a? Counter
-        Resque.enqueue SendCounter, measurement.attributes
+        SendCounter.perform_async measurement.attributes
       end
     end
   end

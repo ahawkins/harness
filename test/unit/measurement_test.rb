@@ -34,6 +34,28 @@ class MeasurementTest < MiniTest::Unit::TestCase
     assert @measurement.time
   end
 
+  def test_can_take_a_string_time
+    @measurement.time = "2010-10-1T15:15:15Z"
+
+    assert_equal DateTime.parse("2010-10-1T15:15:15Z"), @measurement.time
+  end
+
+  def test_can_take_an_integer_time
+    time = Time.now
+
+    @measurement.time = time.to_i
+
+    assert_equal time.to_i, @measurement.time.to_i
+  end
+
+  def test_can_take_a_time
+    time = Time.now
+
+    @measurement.time = time
+
+    assert_equal time, @measurement.time
+  end
+
   def test_attributes
     hash = @measurement.attributes
 
@@ -42,9 +64,5 @@ class MeasurementTest < MiniTest::Unit::TestCase
     assert hash.has_key?(:source)
     assert hash.has_key?(:time)
     assert hash.has_key?(:units)
-  end
-
-  def test_json
-    assert_equal @measurement.to_json, @measurement.attributes.to_json
   end
 end

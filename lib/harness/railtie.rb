@@ -32,5 +32,15 @@ module Harness
         Harness.redis ||= Redis::Namespace.new('harness', :redis => Redis.connect(:host => 'localhost', :port => '6379'))
       end
     end
+
+    initialize "harness.queue" do
+      if defined? Resque
+        Harness.config.queue = :resque
+      elsif defined? Sidekiq
+        Harness.config.queue = :sidekiq
+      else
+        Harness.config.queue = :syncronous
+      end
+    end
   end
 end

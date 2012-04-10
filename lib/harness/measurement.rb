@@ -10,6 +10,16 @@ module Harness
       self.time ||= Time.now
     end
 
+    def time=(value)
+      if value.is_a? String
+        @time = DateTime.parse value
+      elsif value.is_a? Fixnum
+        @time = Time.at value
+      else
+        @time = value
+      end
+    end
+
     def log
       Harness.log self
     end
@@ -20,12 +30,8 @@ module Harness
         :name => name,
         :source => source,
         :time => time,
-        :units => units,
+        :units => units
       }
-    end
-
-    def to_json
-      attributes.to_json
     end
   end
 end

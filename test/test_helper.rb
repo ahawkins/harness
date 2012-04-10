@@ -1,6 +1,9 @@
 require 'simplecov'
 SimpleCov.start
 
+require 'resque'
+require 'sidekiq'
+
 require 'harness'
 
 require 'minitest/unit'

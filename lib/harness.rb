@@ -9,6 +9,7 @@ require 'redis/namespace'
 
 require 'active_support/notifications'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/hash/keys'
 
 module Harness
   class LoggingError < RuntimeError ; end

@@ -1,6 +1,6 @@
 module Harness
   class Job
-    def perform(measurement)
+    def log(measurement)
       begin
         logger.debug "[Harness] Processing Measurement: #{measurement.inspect}"
 
