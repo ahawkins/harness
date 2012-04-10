@@ -52,4 +52,13 @@ class CounterTest < MiniTest::Unit::TestCase
     assert_equal 'foo', counter.name
   end
 
+  def test_sets_id_from_payload_if_symbol
+    base = Time.now
+
+    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :counter => :foo
+
+    counter = Harness::Counter.from_event event
+
+    assert_equal 'foo', counter.id
+  end
 end
