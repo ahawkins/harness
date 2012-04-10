@@ -1,7 +1,8 @@
 # Harness
 
 Harness connects measurements coming from `ActiveSupport::Notifications`
-to external metric tracking services.
+to external metric tracking services. Counters are stored locally with
+redis before being sent to the service.
 
 Currently Supported Services:
 
@@ -53,12 +54,18 @@ class MyClass
 end
 ```
 
-You can do the same with a counter
+You can do the same with a counter. Counter values are automatically
+stored in redis and incremented. This means you can simply pass
+`:counter => true` in instrumentations if you'd like to count it. You
+may also pass `:counter => 5` if you'd like to provide your own value.
+This value is stored in redis so the next time `:counter => true` will
+work correctly. You can reset all the counters back to zero by calling:
+`Harness.reset_counters!`.
 
 ```ruby
 class MyClass
   def important_method(stuff)
-    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => 11 do
+    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => true do
       do_important_stuff
     end
   end
@@ -123,6 +130,8 @@ Harness.config.adapter = :librato
 
 Harness.config.librato.email = 'example@example.com'
 Harness.config.librato.token = 'your-api-key'
+
+Harness.redis = Redis.new
 ```
 
 ## Rails Integration
@@ -137,6 +146,25 @@ config.harness.adapter = :librato
 config.librato.email = 'example@example.com'
 config.librato.token = 'your-api-key'
 ```
+
+Redis will be automatically configured if you `REDISTOGO_URL` or
+`REDIS_URL` environment variables at set. They are wrapped in a
+namespace so there will be no conflicts. If they are not present, the
+default values are used. You can customize this in an initializer:
+
+```ruby
+# config/initializers/harness.rb
+require 'erb'
+
+file = Rails.root.join 'config', 'resque.yml'
+config = YAML.load(ERB.new(File.read(Rails.root.join('config', 'resque.yml'))).result)
+
+Harness.redis = Redis.new(:url => config[Rails.env])
+```
+
+`rake harness:reset_counters` is also added.
+
+### Rails Environments
 
 Measurements are completely ignored in the test env. They are processed
 in development mode, but not sent to the external service. Everything is

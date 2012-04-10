@@ -4,6 +4,9 @@ require 'thread'
 
 require 'securerandom'
 
+require 'redis'
+require 'redis/namespace'
+
 require 'active_support/notifications'
 require 'active_support/core_ext/string'
 
@@ -62,6 +65,20 @@ module Harness
 
   def self.logger=(logger)
     @logger = logger
+  end
+
+  def self.redis=(redis)
+    @redis = redis
+  end
+
+  def self.redis
+    @redis
+  end
+
+  def self.reset_counters!
+    redis.smembers('counters').each do |counter|
+      redis.set counter, -1
+    end
   end
 end
 

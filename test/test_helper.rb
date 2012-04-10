@@ -17,10 +17,13 @@ Harness.config.test_mode = true
 
 Harness.logger = Logger.new '/dev/null'
 
+Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:host => 'localhost', :port => '6379')
+
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup
     Harness.config.adapter = :memory
     gauges.clear ; counters.clear
+    redis.flushall
   end
 
   def assert_gauge_logged(name)
@@ -37,5 +40,15 @@ class IntegrationTest < MiniTest::Unit::TestCase
 
   def counters
     Harness::MemoryAdapter.counters
+  end
+
+  def redis
+    Harness.redis
+  end
+
+  def instrument(name, data = {})
+    ActiveSupport::Notifications.instrument name, data do 
+      # nothing
+    end
   end
 end

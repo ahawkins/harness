@@ -3,9 +3,10 @@ require 'test_helper'
 class CounterTest < MiniTest::Unit::TestCase
   def setup
     @counter = Harness::Counter.new
+    Harness.redis.flushall
   end
 
-  def test_sets_name_from_event
+  def test_sets_id_from_event
     event = ActiveSupport::Notifications::Event.new "name", Time.now, Time.now, nil, {}
 
     counter = Harness::Counter.from_event event
@@ -50,4 +51,5 @@ class CounterTest < MiniTest::Unit::TestCase
 
     assert_equal 'foo', counter.name
   end
+
 end
