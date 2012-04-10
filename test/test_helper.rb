@@ -14,8 +14,6 @@ require 'webmock/minitest'
 
 WebMock.disable_net_connect!
 
-Thread.abort_on_exception = true
-
 Harness.logger = Logger.new '/dev/null'
 
 Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:host => 'localhost', :port => '6379')

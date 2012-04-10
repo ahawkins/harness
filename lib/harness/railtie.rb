@@ -6,10 +6,6 @@ module Harness
       load "harness/tasks.rake"
     end
 
-    initializer "harness.thread" do
-      Thread.abort_on_exception = Rails.env.development? || Rails.env.test?
-    end
-
     initializer "harness.adapter" do |app|
       case Rails.env
       when 'development'
@@ -33,10 +29,12 @@ module Harness
       end
     end
 
-    initialize "harness.queue" do
+    initializer "harness.queue" do
       if defined? Resque
+        require 'harness/queues/resque_queue'
         Harness.config.queue = :resque
       elsif defined? Sidekiq
+        require 'harness/queues/sidekiq_queue'
         Harness.config.queue = :sidekiq
       else
         Harness.config.queue = :syncronous
