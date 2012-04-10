@@ -7,7 +7,7 @@ module Harness
         counter = new
       end
 
-      counter.id = event.name
+      counter.id ||= event.name
 
       if event.payload[:counter].is_a? Fixnum
         counter.value = event.payload[:counter]

@@ -16,4 +16,13 @@ class ActiveSupportTestCase < IntegrationTest
 
     assert_counter_logged "counter_test.harness"
   end
+
+  def test_can_log_both
+    ActiveSupport::Notifications.instrument "test.harness", :gauge => { :id => "test-gauge" }, :counter => {:id => 'test-counter', :value => 5 } do |args|
+      # do nothing
+    end
+
+    assert_counter_logged "test-counter"
+    assert_gauge_logged "test-gauge"
+  end
 end
