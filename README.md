@@ -27,7 +27,7 @@ Or install it yourself as:
 In the metrics world there are two types of things: Gauges and Counters.
 Gauges are time senstive and represent something at a specific point in
 time. Counters keep track of things and should be increasing. Counters
-can be reset back to zero. You can combine counters and/or gauges to
+can be reset back to zero. MeteresYou can combine counters and/or gauges to
 correlate data about your application.
 
 Harness makes this process easily. Harness' primary goal it make it dead

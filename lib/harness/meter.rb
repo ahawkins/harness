@@ -19,7 +19,7 @@ module Harness
     end
 
     def per(rate, base = Time.now)
-      redis.zcount(key, base.to_i - rate, base.to_i)
+      redis.zcount(key, base.to_f - rate, base.to_f)
     end
 
     private
