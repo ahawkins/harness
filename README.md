@@ -8,6 +8,39 @@ Currently Supported Services:
 
 * Librato
 
+Current Features:
+
+* Track counters over time (# of registered users)
+* Read time specific values (# time to cache something)
+* Build meters on top of counters (# requests per second)
+* Sidekiq integration
+* Resque integration
+* Rails integration
+* Capture and log all measurements coming out of Rails
+
+**Crash Course**
+
+```ruby
+class ComplicatedClass
+  def hard_work
+    # Automatically track how long each of these calls takes so they can
+    # tracked and compared over time.
+    ActiveSupport::Notifications.instrument "hard_work", :gauge => true do
+      # do hard_work
+    end
+  end
+
+  def register_user
+    # Automatically track the total # of registered users you have.
+    # As well, as be able to take measurements of users created in a
+    # specific interval
+    ActiveSupport::Notifications.instrument "register_user", :counter => true do
+      # register_user
+    end
+  end
+end
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,8 +60,9 @@ Or install it yourself as:
 In the metrics world there are two types of things: Gauges and Counters.
 Gauges are time senstive and represent something at a specific point in
 time. Counters keep track of things and should be increasing. Counters
-can be reset back to zero. MeteresYou can combine counters and/or gauges to
-correlate data about your application.
+can be reset back to zero. You can combine counters and/or gauges to
+correlate data about your application. Meters monitor counters. They
+allow you look at rates of counters (read: counters per second).
 
 Harness makes this process easily. Harness' primary goal it make it dead
 simple to start measuring different parts of your application.
@@ -78,7 +112,30 @@ for that gauge or counter.
 Harness will do all the extra work in sending these metrics to whatever
 service you're using.
 
-## Customzing
+Once you the counters are you are instrumented, then you can meter them.
+Meters allow you take arbitary readings of counter rates. The results
+return a gauge so they can be logged as well.
+
+```ruby
+# Define a counter
+class MyClass
+  def important_method(stuff)
+    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => true do
+      do_important_stuff
+    end
+  end
+end
+
+# Now you can meter it
+meter = Harnes::Meter.new('important_method.my_class')
+meter.per_second # returns a gauge
+meter.per_second.value # if you just want the number
+meter.per(1.hour).value # You can use your own interval
+meter.per_minute
+meter.per_hour
+```
+
+## Customizing
 
 You can pash a hash to `:counter` or `:gauge` to initialize the
 measurement your own way.
@@ -157,7 +214,7 @@ default values are used. You can customize this in an initializer:
 require 'erb'
 
 file = Rails.root.join 'config', 'resque.yml'
-config = YAML.load(ERB.new(File.read(Rails.root.join('config', 'resque.yml'))).result)
+config = YAML.load(ERB.new(File.read(Rails.root.join('config', 'redis.yml'))).result)
 
 Harness.redis = Redis.new(:url => config[Rails.env])
 ```
@@ -169,6 +226,18 @@ Harness.redis = Redis.new(:url => config[Rails.env])
 Measurements are completely ignored in the test env. They are processed
 in development mode, but not sent to the external service. Everything is
 logged in production.
+
+### Background Processing
+
+Harness integrates automatically with Resque or Sidekiq. This is because
+reporting measurements can take time and add unncessary overhead to the
+response time. If neither of these libraries are present, measurements
+**will be posted in realtime.** You can set your own queue by
+specifiying a class like so:
+
+```ruby
+Harness.config.queue = MyCustomQueue
+```
 
 ## Contributing
 
