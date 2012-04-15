@@ -19,7 +19,18 @@ module Harness
     end
 
     def per(rate, base = Time.now)
-      redis.zcount(key, base.to_f - rate, base.to_f)
+      gauge = Gauge.new :value => redis.zcount(key, base.to_f - rate, base.to_f)
+
+      if words = rate_in_words(rate)
+        gauge.name = "#{@name} per #{words}"
+        gauge.id = "#{@name}-per-#{words}"
+      else
+        gauge.id = "#{@name} gauge"
+      end
+
+      gauge.time = Time.now
+
+      gauge
     end
 
     private
@@ -29,6 +40,16 @@ module Harness
 
     def redis
       Harness.redis
+    end
+
+    def rate_in_words(rate)
+      if rate < 1.minute
+        "second"
+      elsif rate >= 1.minute && rate < 1.hour
+        "minute"
+      elsif rate >= 1.hour && rate < 1.day
+        "hour"
+      end
     end
   end
 end
