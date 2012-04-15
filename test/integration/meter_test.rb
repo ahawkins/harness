@@ -7,7 +7,7 @@ class CountersWithRedis < IntegrationTest
     meter = Harness::Meter.new 'event-counter'
     assert_equal 50, meter.per_second
     assert_equal 50, meter.per_minute
-    assert_equal 50, meter.per_month
+    assert_equal 50, meter.per_hour
   end
 
   def tests_raises_an_error_when_no_such_counter

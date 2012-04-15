@@ -14,8 +14,8 @@ module Harness
       per 1.minute
     end
 
-    def per_month
-      per 1.month
+    def per_hour
+      per 1.hour
     end
 
     def per(rate, base = Time.now)
