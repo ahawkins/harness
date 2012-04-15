@@ -2,14 +2,14 @@ require "harness/version"
 
 require 'thread'
 
-require 'securerandom'
-
 require 'redis'
 require 'redis/namespace'
 
 require 'active_support/notifications'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash/keys'
+require 'active_support/core_ext/numeric'
+require 'active_support/core_ext/integer'
 
 module Harness
   class LoggingError < RuntimeError ; end
@@ -68,7 +68,8 @@ module Harness
 
   def self.reset_counters!
     redis.smembers('counters').each do |counter|
-      redis.set counter, -1
+      redis.set counter, 0
+      redis.del "meters/#{counter}"
     end
   end
 end
@@ -76,6 +77,7 @@ end
 require 'harness/measurement'
 require 'harness/counter'
 require 'harness/gauge'
+require 'harness/meter'
 
 require 'harness/instrumentation'
 

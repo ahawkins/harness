@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module Harness
   class Counter < Measurement
     def self.from_event(event)
@@ -22,6 +24,8 @@ module Harness
       else
         counter.value = Harness.redis.incr(counter.id).to_i
       end
+
+      Harness.redis.zadd "meters/#{counter.id}", counter.time.to_i, counter.value
 
       counter
     end
