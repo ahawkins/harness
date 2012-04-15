@@ -13,6 +13,7 @@ require 'active_support/core_ext/integer'
 
 module Harness
   class LoggingError < RuntimeError ; end
+  class NoCounter < RuntimeError ; end
 
   class Config
     attr_reader :adapter, :queue

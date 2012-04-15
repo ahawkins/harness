@@ -9,4 +9,10 @@ class CountersWithRedis < IntegrationTest
     assert_equal 50, meter.per_minute
     assert_equal 50, meter.per_month
   end
+
+  def tests_raises_an_error_when_no_such_counter
+    assert_raises Harness::NoCounter do
+      Harness::Meter.new 'unknown-counter'
+    end
+  end
 end
