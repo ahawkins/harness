@@ -16,7 +16,8 @@ module Harness
   class NoCounter < RuntimeError ; end
 
   class Config
-    attr_reader :adapter, :queue, :namespace
+    attr_reader :adapter, :queue
+    attr_accessor :namespace
 
     def adapter=(val)
       if val.is_a? Symbol
