@@ -51,11 +51,11 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   end
 
   def test_gauge_id_is_sanitized
-    @gauge.id = "process_action.action_controller"
+    @gauge.id = "!process_action.action_controller"
 
     json = {
       :gauges => [{
-        :name => "process_action-action_controller",
+        :name => "bang.process_action.action_controller",
         :display_name => @gauge.name,
         :value => @gauge.value,
         :measure_time => @gauge.time.to_i,
@@ -119,11 +119,11 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   end
 
   def test_counter_id_is_sanitized
-    @counter.id = "total_requests.action_controller"
+    @counter.id = "!total_requests.action_controller"
 
     json = {
       :counters => [{
-        :name => "total_requests-action_controller",
+        :name => "bang.total_requests.action_controller",
         :display_name => @counter.name,
         :value => @counter.value,
         :measure_time => @counter.time.to_i,
