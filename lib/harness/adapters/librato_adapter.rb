@@ -62,7 +62,7 @@ module Harness
     end
 
     def self.sanitize(name)
-      name.gsub(/\./, '-')
+      "#{name}#{Harness.config.namespace}".gsub(/\./, '-')
     end
   end
 end
