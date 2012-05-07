@@ -35,6 +35,10 @@ class IntegrationTest < MiniTest::Unit::TestCase
     refute_empty counters.select {|c| c.name = name }, "Expected #{counters.inspect} to contain a #{name} result"
   end
 
+  def assert_counter_not_logged(name)
+    assert_empty counters.select {|c| c.name = name }, "No counter expected to be logged"
+  end
+
   def gauges
     Harness::MemoryAdapter.gauges
   end
