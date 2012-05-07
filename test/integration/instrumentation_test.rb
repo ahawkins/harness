@@ -28,23 +28,23 @@ class ActiveSupportTestCase < IntegrationTest
 
   def test_does_not_log_counter_on_exception
     begin
-      ActiveSupport::Notifications.instrument "test.harness", :gauge => { :id => "test-gauge" }, :counter => {:id => 'test-counter', :value => 5 } do |args|
+      ActiveSupport::Notifications.instrument "counter_test.harness", :counter => true do |args|
         raise
       end
     rescue
     end
 
-    assert_counter_not_logged "test-counter"
+    assert_counter_not_logged "counter_test.harness"
   end
 
   def test_does_log_gauge_on_exception
     begin
-      ActiveSupport::Notifications.instrument "test.harness", :gauge => { :id => "test-gauge" }, :counter => {:id => 'test-counter', :value => 5 } do |args|
+      ActiveSupport::Notifications.instrument "gauge_test.harness", :gauge => true do |args|
         raise
       end
     rescue
     end
 
-    assert_gauge_logged "test-gauge"
+    assert_gauge_logged "gauge_test.harness"
   end
 end
