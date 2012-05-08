@@ -1,9 +1,9 @@
 events = %w(cache_read cache_generate cache_fetch_hit cache_write cache_delete)
 
-regex = %r{#{events.join("|")}.active_support}
-
-ActiveSupport::Notifications.subscribe regex do |*args|
-  event = ActiveSupport::Notifications::Event.new(*args)
-  gauge = Harness::Gauge.from_event event
-  gauge.log
+events.each do |name|
+  ActiveSupport::Notifications.subscribe "#{name}.active_support" do |*args|
+    event = ActiveSupport::Notifications::Event.new(*args)
+    gauge = Harness::Gauge.from_event event
+    gauge.log
+  end
 end

@@ -34,7 +34,7 @@ class ActiveSupportTestCase < IntegrationTest
     rescue
     end
 
-    assert_counter_not_logged "counter_test.harness"
+    refute_counter_logged "counter_test.harness"
   end
 
   def test_does_not_log_gauge_on_exception
@@ -45,6 +45,6 @@ class ActiveSupportTestCase < IntegrationTest
     rescue
     end
 
-    assert_gauge_not_logged "gauge_test.harness"
+    refute_gauge_logged "gauge_test.harness"
   end
 end
