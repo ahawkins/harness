@@ -21,13 +21,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
 
     Harness::LibratoAdapter.config.email = email
     Harness::LibratoAdapter.config.token = token
-  end
-
-  def teardown
-    WebMock.reset!
-
-    Harness::LibratoAdapter.config.email = nil
-    Harness::LibratoAdapter.config.token = nil
+    Harness.config.namespace = nil
   end
 
   def test_gauge_is_logged
@@ -50,12 +44,12 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_gauge_id_is_sanitized
-    @gauge.id = "!process_action.action_controller"
+  def test_gauge_is_logged_with_namespace
+    Harness.config.namespace = :foo
 
     json = {
       :gauges => [{
-        :name => "bang.process_action.action_controller",
+        :name => "#{@gauge.id}.foo",
         :display_name => @gauge.name,
         :value => @gauge.value,
         :measure_time => @gauge.time.to_i,
@@ -71,7 +65,6 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert @adapter.log_gauge(@gauge)
     assert_requested expected_request
   end
-
 
   def test_logging_gague_raises_an_exception
     stub_request(:post, %r{metrics}).to_return(:status => 500, :body => "message")
@@ -118,12 +111,12 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_counter_id_is_sanitized
-    @counter.id = "!total_requests.action_controller"
+  def test_counter_is_logged_with_namespace
+    Harness.config.namespace = :foo
 
     json = {
       :counters => [{
-        :name => "bang.total_requests.action_controller",
+        :name => "#{@counter.id}.foo",
         :display_name => @counter.name,
         :value => @counter.value,
         :measure_time => @counter.time.to_i,

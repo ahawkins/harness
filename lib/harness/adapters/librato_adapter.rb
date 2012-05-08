@@ -62,12 +62,10 @@ module Harness
     end
 
     def self.sanitize(name)
-      base = name.gsub(/^!/, 'bang.')
-
       if Harness.config.namespace
         "#{name}.#{Harness.config.namespace}"
       else
-        base
+        name
       end
     end
   end
