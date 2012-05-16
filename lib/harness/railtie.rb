@@ -36,17 +36,17 @@ module Harness
     initializer "harness.queue.production" do |app|
       use_real_queue = Rails.env != 'development' && Rails.env != 'test'
 
-      if defined?(Resque) && use_real_queue
+      if defined?(Resque::Job) && use_real_queue
         require 'harness/queues/resque_queue'
         Harness.config.queue = :resque
-      elsif defined?(Sidekiq) && use_real_queue
+      elsif defined?(Sidekiq::Worker) && use_real_queue
         require 'harness/queues/sidekiq_queue'
         Harness.config.queue = :sidekiq
       end
     end
 
     initializer "harness.sidekiq" do |app|
-      if defined? Sidekiq
+      if defined? Sidekiq::Worker
         require 'harness/integration/sidekiq'
       end
     end
