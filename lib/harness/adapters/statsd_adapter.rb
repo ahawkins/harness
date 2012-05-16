@@ -35,30 +35,21 @@ module Harness
 
     def self.log_gauge(gauge)
       validate gauge
-      raise Harness::LoggingError if gauge.id.length > 63
-
       backend.gauge sanitize(gauge.id), gauge.value
     end
 
     def self.log_counter(counter)
       validate counter
-
       backend.increment sanitize(counter.id), counter.value
     end
 
     private
     def self.validate(obj)
-      raise Harness::LoggingError if obj.id.length > 63
       raise "Adapter not configured. Ensure host and port are set." unless config.host and config.port
     end
 
     def self.sanitize(name)
-      key = if Harness.config.namespace
-        key = "#{Harness.config.namespace}.#{name}"
-      else
-        key = name
-      end
-
+      key = Harness.config.namespace ? "#{Harness.config.namespace}.#{name}" : name
       key.gsub(%r{[^a-z0-9]}, '.')
     end
   end
