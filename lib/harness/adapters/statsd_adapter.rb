@@ -1,3 +1,4 @@
+require 'statsd-instrument'
 
 module Harness
   class StatsdAdapter
@@ -6,21 +7,21 @@ module Harness
 
       def host=(value)
         @host = value
-        Statsd.host = @host
+        backend.host = @host
       end
 
       def port=(value)
         @port = value
-        Statsd.port = @port
+        backend.port = @port
       end
 
       def sample_rate=(value)
         @sample_rate = value
-        Statsd.default_sample_rate = @sample_rate
+        backend.default_sample_rate = @sample_rate
       end
 
       def backend
-        @backend ||= Statsd
+        @backend ||= StatsD
       end
     end
 
@@ -36,13 +37,13 @@ module Harness
       validate gauge
       raise Harness::LoggingError if gauge.id.length > 63
 
-      Statsd.gauge sanitize(gauge.id), gauge.value
+      backend.gauge sanitize(gauge.id), gauge.value
     end
 
     def self.log_counter(counter)
       validate counter
 
-      Statsd.increment sanitize(counter.id), counter.value
+      backend.increment sanitize(counter.id), counter.value
     end
 
     private
