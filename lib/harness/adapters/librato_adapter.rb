@@ -75,7 +75,7 @@ module Harness
         key = name
       end
 
-      key.gsub('/', '')
+      key.gsub('/', '.')
     end
   end
 end
