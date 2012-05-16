@@ -16,7 +16,7 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     @counter.name = "Fake Counter"
     @counter.source = "minitest"
     @counter.time = Time.now
-    @counter.value = 55
+    @counter.value = 1337
     @counter.units = :bytes
 
     @backend = MiniTest::Mock.new
@@ -43,7 +43,22 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     assert_raises RuntimeError do
       @adapter.log_gauge @gauge
     end
+  end
 
+  def test_counter_is_logged
+    @backend.expect(:increment, true, [String, 1337])
+
+    assert @adapter.log_counter(@counter)
+    assert @backend.verify
+  end
+
+  def test_logging_counter_raises_an_exception_when_not_configured
+    Harness::StatsdAdapter.config.host = nil
+    Harness::StatsdAdapter.config.port = nil
+
+    assert_raises RuntimeError do
+      @adapter.log_counter @counter
+    end
   end
 
   def test_sanitize_removes_special_chars
@@ -61,6 +76,6 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
   end
 
   def port
-    1337
+    8080
   end
 end
