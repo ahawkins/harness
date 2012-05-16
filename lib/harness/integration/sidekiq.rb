@@ -20,8 +20,7 @@ module Sidekiq
 
         private
         def instrument?(worker_class)
-          worker_class != "Harness::SidekiqQueue::SendCounter" &&
-            worker_class != "Harness::SidekiqQueue::SendGauge"
+          worker_class !~ /^Harness/
         end
       end
     end
