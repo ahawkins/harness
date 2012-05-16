@@ -30,14 +30,24 @@ module Harness
     end
 
     initializer "harness.queue" do
-      if defined? Resque
+      Harness.config.queue = Harness::SyncronousQueue
+    end
+
+    initializer "harness.queue.production" do |app|
+      use_real_queue = Rails.env != 'development' && Rails.env != 'test'
+
+      if defined?(Resque) && use_real_queue
         require 'harness/queues/resque_queue'
         Harness.config.queue = :resque
-      elsif defined? Sidekiq
+      elsif defined?(Sidekiq) && use_real_queue
         require 'harness/queues/sidekiq_queue'
         Harness.config.queue = :sidekiq
-      else
-        Harness.config.queue = Harness::SyncronousQueue
+      end
+    end
+
+    initializer "harness.sidekiq" do |app|
+      if defined? Sidekiq
+        require 'harness/integration/sidekiq'
       end
     end
   end
