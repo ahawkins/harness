@@ -55,7 +55,14 @@ module Harness
 
         response = http.request request
 
-        raise Harness::LoggingError, response.body unless response.code.to_i == 200
+        unless response.code.to_i == 200
+          text = %Q{
+          Server Said: #{response.body}
+          Sent: #{params.inspect}
+          }
+
+          raise Harness::LoggingError, text
+        end
       end
 
       true
