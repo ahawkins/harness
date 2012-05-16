@@ -5,8 +5,8 @@ module Sidekiq
         def call(worker_class, item, queue)
           if instrument? worker_class
             options = {}
-            options[:gauge] = "#{worker_class.class.to_s.underscore}.sidekiq"
-            options[:counter] = "#{worker_class.class.to_s.pluralize.underscore}.sidekiq"
+            options[:gauge] = "#{worker_class.class.to_s.underscore}.sidekiq".gsub('/', '.')
+            options[:counter] = "#{worker_class.class.to_s.pluralize.underscore}.sidekiq".gsub('/', '.')
 
             ActiveSupport::Notifications.instrument "#{worker_class.class.to_s.underscore}.sidekiq", options do
               yield
@@ -20,7 +20,7 @@ module Sidekiq
 
         private
         def instrument?(worker_class)
-          worker_class !~ /^Harness/
+          worker_class !~ /^harness/i
         end
       end
     end
