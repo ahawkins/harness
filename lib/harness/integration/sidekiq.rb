@@ -20,7 +20,7 @@ module Sidekiq
 
         private
         def instrument?(worker_class)
-          worker_class !~ /^harness/i
+          worker_class.to_s !~ /^harness/i
         end
       end
     end

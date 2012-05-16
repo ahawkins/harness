@@ -30,5 +30,15 @@ class SidekiqIntegrationTest < IntegrationTest
 
     assert_empty counters
     assert_empty gauges
+
+    middleware.call(Harness::SidekiqQueue::SendCounter, nil, nil) { }
+
+    assert_empty counters
+    assert_empty gauges
+
+    middleware.call(Harness::SidekiqQueue::SendGauge, nil, nil) { }
+
+    assert_empty counters
+    assert_empty gauges
   end
 end
