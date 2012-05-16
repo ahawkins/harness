@@ -23,7 +23,13 @@ module Sidekiq
 
         private
         def instrument?(worker_class)
-          worker_class.to_s !~ /^harness/i
+          if worker_class.is_a? Harness::SidekiqQueue::SendCounter
+            false
+          elsif worker_class.is_a? Harness::SidekiqQueue::SendGauge
+            false
+          else
+            worker_class.to_s !~ /^harness/i
+          end
         end
 
         def logger
