@@ -19,28 +19,40 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     @counter.value = 55
     @counter.units = :bytes
 
+    @backend = MiniTest::Mock.new
+    @backend.expect(:host=, host, [host])
+    @backend.expect(:port=, port, [port])
+
+    Harness::StatsdAdapter.config.backend = @backend
     Harness::StatsdAdapter.config.host = host
     Harness::StatsdAdapter.config.port = port
     Harness.config.namespace = nil
   end
 
   def test_gauge_is_logged
-    backend = MiniTest::Mock.new
-    backend.expect(:gauge, nil, "fake.counter")
+    @backend.expect(:gauge, true, [String, 55])
 
-    @adapter.backend = backend
     assert @adapter.log_gauge(@gauge)
-    assert backend.verify
+    assert @backend.verify
   end
 
-  def test_gauge_is_logged_with_namespace
-    Harness.config.namespace = :foo
-    backend = MiniTest::Mock.new
-    backend.expect(:gauge, nil, "foo.fake.counter")
+  def test_logging_gauge_raises_an_exception_when_not_configured
+    Harness::StatsdAdapter.config.host = nil
+    Harness::StatsdAdapter.config.port = nil
 
-    @adapter.backend = backend
-    assert @adapter.log_gauge(@gauge)
-    assert backend.verify
+    assert_raises RuntimeError do
+      @adapter.log_gauge @gauge
+    end
+
+  end
+
+  def test_sanitize_removes_special_chars
+    assert @adapter.sanitize('t-est/123') == 't.est.123'
+  end
+
+  def test_sanitize_adds_namespace
+    Harness.config.namespace = :foo
+    assert @adapter.sanitize('test-harr-harr') == 'foo.test.harr.harr'
   end
 
   private
