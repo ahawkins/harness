@@ -70,10 +70,12 @@ module Harness
 
     def self.sanitize(name)
       if Harness.config.namespace
-        "#{name}.#{Harness.config.namespace}"
+        key = "#{name}.#{Harness.config.namespace}"
       else
-        name
+        key = name
       end
+
+      key.gsub('/', '')
     end
   end
 end
