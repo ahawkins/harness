@@ -3,7 +3,14 @@ require 'statsd-instrument'
 module Harness
   class StatsdAdapter
     class Config
-      attr_accessor :host, :port, :sample_rate, :backend
+      attr_accessor :host, :port, :sample_rate, :backend, :logger, :mode
+
+      def initialize(conf)
+        return self unless conf
+        conf.each do |key,val|
+          self.send "#{key}=", val
+        end
+      end
 
       def host=(value)
         @host = value
@@ -20,6 +27,16 @@ module Harness
         backend.default_sample_rate = @sample_rate
       end
 
+      def logger=(value)
+        @logger = value
+        backend.logger = @logger
+      end
+
+      def mode=(value)
+        @mode = value
+        backend.mode = @mode
+      end
+
       def backend
         @backend ||= StatsD
       end
@@ -29,17 +46,19 @@ module Harness
       config.backend
     end
 
-    def self.config
-      @config ||= Config.new
+    def self.config(config = nil)
+      @config ||= Config.new(config)
     end
 
     def self.log_gauge(gauge)
       validate gauge
+      set_defaults
       backend.gauge sanitize(gauge.id), gauge.value
     end
 
     def self.log_counter(counter)
       validate counter
+      set_defaults
       backend.increment sanitize(counter.id), counter.value
     end
 
@@ -51,6 +70,13 @@ module Harness
     def self.sanitize(name)
       key = Harness.config.namespace ? "#{Harness.config.namespace}.#{name}" : name
       key.gsub(%r{[^a-z0-9]}, '.')
+    end
+
+    def self.set_defaults
+      # as Rails.logger is nil when we are initialized,
+      # we need to set the logger at runtime
+      config.logger ||= Rails.logger
+      config.mode ||= Rails.env
     end
   end
 end

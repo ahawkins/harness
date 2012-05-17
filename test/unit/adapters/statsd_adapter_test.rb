@@ -1,8 +1,10 @@
 require 'test_helper'
+require 'ostruct'
 
 class StatsdAdapterTest < MiniTest::Unit::TestCase
   def setup
     @adapter = Harness::StatsdAdapter
+    @adapter.config(:mode => :test, :logger => logger)
 
     @gauge = Harness::Gauge.new
     @gauge.id = "fake-gauge"
@@ -77,5 +79,9 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
 
   def port
     8080
+  end
+
+  def logger
+    @logger ||= Struct.new(:debug, :info, :error)
   end
 end
