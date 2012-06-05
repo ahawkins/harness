@@ -46,7 +46,9 @@ module Harness
     end
 
     initializer "harness.sidekiq" do |app|
-      if defined? Sidekiq::Worker
+      use_real_queue = Rails.env != 'development' && Rails.env != 'test'
+
+      if defined?(Sidekiq::Worker) && use_real_queue
         require 'harness/integration/sidekiq'
       end
     end
