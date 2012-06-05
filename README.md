@@ -194,7 +194,16 @@ Harness.redis = Redis.new
 ## Rails Integration
 
 Harness will automatically log metrics coming from `ActionPack`,
-`ActiveRecord`, `ActiveSupport` and `ActionMailer`.
+`ActiveRecord`, and `ActionMailer`. `ActiveSupport` instrumentation is
+disabled by default. Also, custom integrations are disabled by default.
+You can turn on instrumentation for specific components like so:
+
+```ruby
+config.harness.instrument.action_controller = false
+config.harness.instrument.active_support = true
+config.harness.instrument.sidekiq = true
+config.harness.instrument.active_model_serializers = true
+```
 
 You can configure Harness from `application.rb`
 

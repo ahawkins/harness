@@ -1,7 +1,5 @@
 require "harness/version"
 
-require 'thread'
-
 require 'redis'
 require 'redis/namespace'
 
@@ -11,6 +9,8 @@ require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/numeric'
 require 'active_support/core_ext/integer'
 
+require 'active_support/ordered_options'
+
 module Harness
   class LoggingError < RuntimeError ; end
   class NoCounter < RuntimeError ; end
@@ -18,6 +18,11 @@ module Harness
   class Config
     attr_reader :adapter, :queue
     attr_accessor :namespace
+    attr_reader :instrument
+
+    def initialize
+      @instrument = ActiveSupport::OrderedOptions.new
+    end
 
     def adapter=(val)
       if val.is_a? Symbol

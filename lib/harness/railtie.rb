@@ -2,6 +2,19 @@ module Harness
   class Railtie < ::Rails::Railtie
     config.harness = Harness.config
 
+    # Set default instrumentation
+    config.harness.instrument.action_controller = true
+    config.harness.instrument.action_mailer = true
+    config.harness.instrument.action_view = true
+
+    config.harness.instrument.active_support = false
+
+    # Custom instrumentation can be turned on as follows
+    # See files in lib/harness/integration for available integrations
+    #
+    # config.harness.insturment.sidekiq = true
+    # config.harness.insturment.active_model_serializers = true
+
     rake_tasks do
       load "harness/tasks.rake"
     end
@@ -45,11 +58,9 @@ module Harness
       end
     end
 
-    initializer "harness.sidekiq" do |app|
-      use_real_queue = Rails.env != 'development' && Rails.env != 'test'
-
-      if defined?(Sidekiq::Worker) && use_real_queue
-        require 'harness/integration/sidekiq'
+    initializer "harness.instrumentation" do |app|
+      app.config.harness.instrument.each_pair do |integration, value|
+        require "harness/integration/#{integration}" if value
       end
     end
   end
