@@ -2,6 +2,7 @@ module Harness
   class SidekiqQueue
     class SendGauge < Job
       include Sidekiq::Worker
+      sidekiq_options :queue => :metrics
 
       def perform(attributes)
         gauge = Gauge.new attributes
@@ -11,6 +12,7 @@ module Harness
 
     class SendCounter < Job
       include Sidekiq::Worker
+      sidekiq_options :queue => :metrics
 
       def perform(attributes)
         counter = Counter.new attributes

@@ -1,7 +1,7 @@
 module Harness
   class ResqueQueue
     class SendGauge < Job
-      @queue = :high
+      @queue = :metrics
 
       def self.perform(attributes)
         gauge = Gauge.new attributes
@@ -10,7 +10,7 @@ module Harness
     end
 
     class SendCounter < Job
-      @queue = :high
+      @queue = :metrics
 
       def self.perform(attributes)
         counter = Counter.new attributes
