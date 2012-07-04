@@ -26,7 +26,7 @@ module Harness
 
     def adapter=(val)
       if val.is_a? Symbol
-        @adapter = "Harness::#{val.to_s.camelize}Adapter".constantize
+        @adapter = "Harness::#{val.to_s.camelize}Adapter".constantize.new
       else
         @adapter = val
       end
@@ -34,7 +34,7 @@ module Harness
 
     def queue=(val)
       if val.is_a? Symbol
-        @queue= "Harness::#{val.to_s.camelize}Queue".constantize
+        @queue= "Harness::#{val.to_s.camelize}Queue".constantize.new
       else
         @queue= val
       end

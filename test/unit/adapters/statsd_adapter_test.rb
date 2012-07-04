@@ -3,7 +3,7 @@ require 'ostruct'
 
 class StatsdAdapterTest < MiniTest::Unit::TestCase
   def setup
-    @adapter = Harness::StatsdAdapter
+    @adapter = Harness::StatsdAdapter.new
 
     @gauge = Harness::Gauge.new
     @gauge.id = "fake-gauge"
@@ -58,14 +58,5 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     assert_raises RuntimeError do
       @adapter.log_counter @counter
     end
-  end
-
-  def test_sanitize_removes_special_chars
-    assert @adapter.sanitize('t-est/123') == 't.est.123'
-  end
-
-  def test_sanitize_adds_namespace
-    Harness.config.namespace = :foo
-    assert @adapter.sanitize('test-harr-harr') == 'foo.test.harr.harr'
   end
 end

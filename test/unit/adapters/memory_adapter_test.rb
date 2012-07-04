@@ -5,7 +5,7 @@ class MemoryAdapterTest < MiniTest::Unit::TestCase
     Harness::MemoryAdapter.counters.clear
     Harness::MemoryAdapter.gauges.clear
 
-    @adapter = Harness::MemoryAdapter
+    @adapter = Harness::MemoryAdapter.new
   end
 
   def test_log_gauge_adds_to_gauges

@@ -20,7 +20,7 @@ module Harness
       end
     end
 
-    def self.push(measurement)
+    def push(measurement)
       if measurement.is_a? Gauge
         SendGauge.perform_async measurement.attributes
       elsif measurement.is_a? Counter

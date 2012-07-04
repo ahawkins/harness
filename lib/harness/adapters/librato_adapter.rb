@@ -12,7 +12,7 @@ module Harness
       @config ||= Config.new
     end
 
-    def self.log_gauge(gauge)
+    def log_gauge(gauge)
       raise Harness::LoggingError if gauge.id.length > 63
 
       post({:gauges => [{
@@ -25,7 +25,7 @@ module Harness
       }]})
     end
 
-    def self.log_counter(counter)
+    def log_counter(counter)
       raise Harness::LoggingError if counter.id.length > 63
 
       post({:counters => [{
@@ -39,7 +39,7 @@ module Harness
     end
 
     private
-    def self.post(params)
+    def post(params)
       unless config.email && config.token
         raise "Adapter not configured. Ensure email and token are set."
       end
@@ -68,7 +68,11 @@ module Harness
       true
     end
 
-    def self.sanitize(name)
+    def config
+      self.class.config
+    end
+
+    def sanitize(name)
       if Harness.config.namespace
         key = "#{name}.#{Harness.config.namespace}"
       else

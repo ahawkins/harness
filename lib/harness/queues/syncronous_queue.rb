@@ -1,6 +1,6 @@
 module Harness
   class SyncronousQueue
-    def self.push(measurement)
+    def push(measurement)
       begin
         Harness::Job.new.log(measurement)
       rescue LoggingError => ex
@@ -8,6 +8,11 @@ module Harness
         logger.debug ex.backtrace.join("\n")
         logger.warn "[Harness] Could not post measurement! Enable debug logging to see full errors"
       end
+    end
+
+    private
+    def logger
+      Harness.logger
     end
   end
 end
