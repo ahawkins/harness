@@ -230,8 +230,8 @@ You can configure Harness from `application.rb`
 
 ```ruby
 config.harness.adapter = :librato
-config.librato.email = 'example@example.com'
-config.librato.token = 'your-api-key'
+config.harness.librato.email = 'example@example.com'
+config.harness.librato.token = 'your-api-key'
 ```
 
 Redis will be automatically configured if you `REDISTOGO_URL` or
