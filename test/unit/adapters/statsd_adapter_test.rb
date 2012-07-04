@@ -4,7 +4,6 @@ require 'ostruct'
 class StatsdAdapterTest < MiniTest::Unit::TestCase
   def setup
     @adapter = Harness::StatsdAdapter
-    @adapter.config(:mode => :test, :logger => logger)
 
     @gauge = Harness::Gauge.new
     @gauge.id = "fake-gauge"
@@ -22,25 +21,23 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     @counter.units = :bytes
 
     @backend = MiniTest::Mock.new
-    @backend.expect(:host=, host, [host])
-    @backend.expect(:port=, port, [port])
+    @backend.expect :host, 'foo'
+    @backend.expect :port, 'bar'
 
     Harness::StatsdAdapter.config.backend = @backend
-    Harness::StatsdAdapter.config.host = host
-    Harness::StatsdAdapter.config.port = port
     Harness.config.namespace = nil
   end
 
   def test_gauge_is_logged
-    @backend.expect(:gauge, true, [String, 55])
+    @backend.expect :gauge, true, [String, 55] 
 
     assert @adapter.log_gauge(@gauge)
     assert @backend.verify
   end
 
   def test_logging_gauge_raises_an_exception_when_not_configured
-    Harness::StatsdAdapter.config.host = nil
-    Harness::StatsdAdapter.config.port = nil
+    @backend.expect :host, nil
+    @backend.expect :port, nil
 
     assert_raises RuntimeError do
       @adapter.log_gauge @gauge
@@ -48,15 +45,15 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
   end
 
   def test_counter_is_logged
-    @backend.expect(:increment, true, [String, 1337])
+    @backend.expect :increment, true, [String, 1337]
 
     assert @adapter.log_counter(@counter)
     assert @backend.verify
   end
 
   def test_logging_counter_raises_an_exception_when_not_configured
-    Harness::StatsdAdapter.config.host = nil
-    Harness::StatsdAdapter.config.port = nil
+    @backend.expect :host, nil
+    @backend.expect :port, nil
 
     assert_raises RuntimeError do
       @adapter.log_counter @counter
@@ -70,18 +67,5 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
   def test_sanitize_adds_namespace
     Harness.config.namespace = :foo
     assert @adapter.sanitize('test-harr-harr') == 'foo.test.harr.harr'
-  end
-
-  private
-  def host
-    'localhost'
-  end
-
-  def port
-    8080
-  end
-
-  def logger
-    @logger ||= Struct.new(:debug, :info, :error)
   end
 end
