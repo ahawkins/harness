@@ -20,21 +20,18 @@ module Harness
     end
 
     initializer "harness.adapter" do |app|
-      case Rails.env
-      when 'development'
-        app.config.harness.adapter = :null
-      when 'test'
-        app.config.harness.adapter = :null
-      else
-        app.config.harness.adapter = :librato
-      end
+      app.config.harness.adapter ||= case Rails.env
+                                     when 'development' then :null
+                                     when 'test' then :null
+                                     else :librato
+                                     end
     end
 
     initializer "harness.logger" do |app|
       Harness.logger = Rails.logger
     end
 
-    initializer "harness.redis" do 
+    initializer "harness.redis" do
       if existing_url = ENV['REDISTOGO_URL'] || ENV['REDIS_URL']
         Harness.redis ||= Redis::Namespace.new('harness', :redis => Redis.connect(:url => existing_url))
       else
