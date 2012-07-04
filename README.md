@@ -7,6 +7,7 @@ redis before being sent to the service.
 Currently Supported Services:
 
 * Librato
+* Statsd (thanks to fluxlux)
 
 Current Features:
 
@@ -182,13 +183,33 @@ counter = Harness::Counter.new :time => Time.now, :id => 'foo.bar'
 
 ## Configuration
 
+### Librato
 ```ruby
 Harness.config.adapter = :librato
 
 Harness.config.librato.email = 'example@example.com'
 Harness.config.librato.token = 'your-api-key'
 
-Harness.redis = Redis.new
+```
+
+### StatsD
+
+Harness does **not** configure StatsD for you. It uses the StatsD class
+undercovers. If you've already configured that in your own way, great.
+If not, you can use the configuration proxy as described below.
+
+```ruby
+Harness.config.adapter = :statsd
+
+# Harness.config.statsd is a proxy for the StatsD class
+Harness.config.statsd.host = 'localhost'
+Harness.config.statsd.port = '8080'
+Harness.config.statsd.default_sample_rate = 0.1
+Harness.config.statsd.logger = Rails.logger
+
+# You can assign your own StatsD implementation
+# by setting the "backend" attribute
+Haraness.config.statsd.backend = CustomStatsD
 ```
 
 ## Rails Integration
