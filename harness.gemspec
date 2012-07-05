@@ -26,4 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sidekiq"
   gem.add_development_dependency "active_model_serializers"
   gem.add_development_dependency "rails"
+  gem.add_development_dependency "minitest"
 end
