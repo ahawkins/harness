@@ -14,15 +14,21 @@ class HarnessModuleTest < MiniTest::Unit::TestCase
   end
 
   def test_can_set_the_queue_with_a_symbol
+    Harness.config.queue = :synchronous
+
+    assert_kind_of Harness::SynchronousQueue, Harness.config.queue
+  end
+
+  def test_can_set_the_queue_with_misspelled_symbol_for_backward_compat
     Harness.config.queue = :syncronous
 
-    assert_kind_of Harness::SyncronousQueue, Harness.config.queue
+    assert_kind_of Harness::SynchronousQueue, Harness.config.queue
   end
 
   def test_can_set_the_queue_with_a_class
-    Harness.config.queue = Harness::SyncronousQueue
+    Harness.config.queue = Harness::SynchronousQueue
 
-    assert_equal Harness::SyncronousQueue, Harness.config.queue
+    assert_equal Harness::SynchronousQueue, Harness.config.queue
   end
 
   def test_uses_method_missing_to_configure_adapters

@@ -12,8 +12,8 @@ module Harness
     # Custom instrumentation can be turned on as follows
     # See files in lib/harness/integration for available integrations
     #
-    # config.harness.insturment.sidekiq = true
-    # config.harness.insturment.active_model_serializers = true
+    # config.harness.instrument.sidekiq = true
+    # config.harness.instrument.active_model_serializers = true
 
     rake_tasks do
       load "harness/tasks.rake"
@@ -40,7 +40,7 @@ module Harness
     end
 
     initializer "harness.queue" do
-      Harness.config.queue = Harness::SyncronousQueue
+      Harness.config.queue = Harness::SynchronousQueue
     end
 
     initializer "harness.queue.production" do |app|

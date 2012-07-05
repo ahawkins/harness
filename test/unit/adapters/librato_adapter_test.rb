@@ -66,7 +66,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
     assert_requested expected_request
   end
 
-  def test_logging_gague_raises_an_exception
+  def test_logging_gauge_raises_an_exception
     stub_request(:post, %r{metrics}).to_return(:status => 500, :body => "message")
 
     assert_raises Harness::LoggingError do

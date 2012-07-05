@@ -59,7 +59,7 @@ Or install it yourself as:
 ## Usage
 
 In the metrics world there are two types of things: Gauges and Counters.
-Gauges are time senstive and represent something at a specific point in
+Gauges are time sensitive and represent something at a specific point in
 time. Counters keep track of things and should be increasing. Counters
 can be reset back to zero. You can combine counters and/or gauges to
 correlate data about your application. Meters monitor counters. They
@@ -107,14 +107,25 @@ class MyClass
 end
 ```
 
-The instuments name will be sent as the name (`important_method.my_class`) 
+The instruments name will be sent as the name (`important_method.my_class`)
 for that gauge or counter.
+
+Note that `ActiveSupport::Notifications.instrument` doesn't require
+a block. This can be useful when you are taking an instant measurement.
+
+```ruby
+class MyClass
+  def important_method(stuff)
+    ActiveSupport::Notifications.instrument "important_method.my_class", :counter => true
+  end
+end
+```
 
 Harness will do all the extra work in sending these metrics to whatever
 service you're using.
 
 Once you the counters are you are instrumented, then you can meter them.
-Meters allow you take arbitary readings of counter rates. The results
+Meters allow you take arbitrary readings of counter rates. The results
 return a gauge so they can be logged as well.
 
 ```ruby
@@ -138,13 +149,18 @@ meter.per_hour
 
 ## Customizing
 
-You can pash a hash to `:counter` or `:gauge` to initialize the
+You can pass a hash to `:counter` or `:gauge` to initialize the
 measurement your own way.
+
+If you pass a value attribute to a gauge, it will be the value
+sent instead of the duration of the block.
 
 ```ruby
 class MyClass
   def important_method(stuff)
-    ActiveSupport::Notifications.instrument "important_method.my_class", :gauge => { :id => 'custom-id', :name => "My Measurement" } do
+    ActiveSupport::Notifications.instrument "important_method.my_class",
+    :gauge => { :id => 'custom-id', :name => "My Measurement",
+                :value => my_current_val, :units => 'cogs' } do
       do_important_stuff
     end
   end
@@ -153,10 +169,10 @@ end
 
 ## One Off Gauges and Counters
 
-You can instantiate `Harness::Counter` and `Harness::Guage` wherever you
+You can instantiate `Harness::Counter` and `Harness::Gauge` wherever you
 want. Events from `ActiveSupport` are just converted to these classes
 under the covers anyways. You can use these class if you want to take
-peridocial measurements or tracking something that happens outside the
+periodic measurements or tracking something that happens outside the
 application.
 
 ```ruby
@@ -175,9 +191,9 @@ counter.time # defaults to Time.now
 counter.value = read_total_users_in_database
 counter.log
 
-# Both class take an option hash
+### Both classes take an option hash
 
-gauge = Harness::Guage.new :time => Time.now, :id => 'foo.bar'
+gauge = Harness::Gauge.new :time => Time.now, :id => 'foo.bar'
 counter = Harness::Counter.new :time => Time.now, :id => 'foo.bar'
 ```
 
@@ -195,7 +211,7 @@ Harness.config.librato.token = 'your-api-key'
 ### StatsD
 
 Harness does **not** configure StatsD for you. It uses the StatsD class
-undercovers. If you've already configured that in your own way, great.
+under the covers. If you've already configured that in your own way, great.
 If not, you can use the configuration proxy as described below.
 
 ```ruby
@@ -246,7 +262,7 @@ require 'erb'
 file = Rails.root.join 'config', 'resque.yml'
 config = YAML.load(ERB.new(File.read(Rails.root.join('config', 'redis.yml'))).result)
 
-Harness.redis = Redis.new(:url => config[Rails.env])
+Harness.redis = Redis::Namespace.new('harness', :redis => Redis.connect(:url => config[Rails.env]))
 ```
 
 `rake harness:reset_counters` is also added.
@@ -260,10 +276,10 @@ logged in production.
 ### Background Processing
 
 Harness integrates automatically with Resque or Sidekiq. This is because
-reporting measurements can take time and add unncessary overhead to the
+reporting measurements can take time and add unnecessary overhead to the
 response time. If neither of these libraries are present, measurements
 **will be posted in realtime.** You can set your own queue by
-specifiying a class like so:
+specifying a class like so:
 
 ```ruby
 Harness.config.queue = MyCustomQueue
