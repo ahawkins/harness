@@ -15,7 +15,7 @@ module Harness
       end
 
       gauge.id ||= event.name
-      gauge.value = event.duration
+      gauge.value ||= event.duration
 
       gauge
     end
