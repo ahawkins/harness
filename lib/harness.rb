@@ -97,11 +97,6 @@ require 'harness/adapters/memory_adapter'
 require 'harness/adapters/null_adapter'
 require 'harness/adapters/statsd_adapter'
 
-require 'harness/integration/action_controller'
-require 'harness/integration/action_view'
-require 'harness/integration/action_mailer'
-require 'harness/integration/active_support'
-
 require 'harness/railtie' if defined?(Rails)
 
 require 'logger'
