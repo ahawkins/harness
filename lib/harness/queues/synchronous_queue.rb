@@ -1,5 +1,5 @@
 module Harness
-  class SyncronousQueue
+  class SynchronousQueue
     def push(measurement)
       begin
         Harness::Job.new.log(measurement)
@@ -15,4 +15,6 @@ module Harness
       Harness.logger
     end
   end
+  # Preserve previous spelling for backward compatibility
+  SyncronousQueue = SynchronousQueue
 end

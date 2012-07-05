@@ -23,7 +23,7 @@ Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:ho
 class IntegrationTest < MiniTest::Unit::TestCase
   def setup
     Harness.config.adapter = :memory
-    Harness.config.queue = :syncronous
+    Harness.config.queue = :synchronous
 
     gauges.clear ; counters.clear
     redis.flushall
@@ -58,7 +58,7 @@ class IntegrationTest < MiniTest::Unit::TestCase
   end
 
   def instrument(name, data = {})
-    ActiveSupport::Notifications.instrument name, data do 
+    ActiveSupport::Notifications.instrument name, data do
       # nothing
     end
   end

@@ -90,7 +90,7 @@ require 'harness/instrumentation'
 
 require 'harness/job'
 
-require 'harness/queues/syncronous_queue'
+require 'harness/queues/synchronous_queue'
 
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/memory_adapter'
