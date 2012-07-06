@@ -40,7 +40,7 @@ module Harness
     end
 
     initializer "harness.queue" do
-      Harness.config.queue = Harness::SynchronousQueue
+      Harness.config.queue = :synchronous
     end
 
     initializer "harness.queue.production" do |app|

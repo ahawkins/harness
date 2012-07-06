@@ -7,10 +7,10 @@ class HarnessModuleTest < MiniTest::Unit::TestCase
     assert_kind_of Harness::MemoryAdapter, Harness.config.adapter
   end
 
-  def test_can_set_the_adapter_with_a_class
-    Harness.config.adapter = Harness::MemoryAdapter
+  def test_can_set_the_adapter_with_an_adapter_instance
+    Harness.config.adapter = Harness::MemoryAdapter.new
 
-    assert_equal Harness::MemoryAdapter, Harness.config.adapter
+    assert_kind_of Harness::MemoryAdapter, Harness.config.adapter
   end
 
   def test_can_set_the_queue_with_a_symbol
@@ -25,10 +25,10 @@ class HarnessModuleTest < MiniTest::Unit::TestCase
     assert_kind_of Harness::SynchronousQueue, Harness.config.queue
   end
 
-  def test_can_set_the_queue_with_a_class
-    Harness.config.queue = Harness::SynchronousQueue
+  def test_can_set_the_queue_with_a_queue_instance
+    Harness.config.queue = Harness::SynchronousQueue.new
 
-    assert_equal Harness::SynchronousQueue, Harness.config.queue
+    assert_kind_of Harness::SynchronousQueue, Harness.config.queue
   end
 
   def test_uses_method_missing_to_configure_adapters

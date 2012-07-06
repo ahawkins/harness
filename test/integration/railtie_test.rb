@@ -19,4 +19,8 @@ class RailtieTest < MiniTest::Unit::TestCase
     assert app.config.harness.instrument.action_view
     refute app.config.harness.instrument.active_support
   end
+
+  def test_configures_queue
+    assert_kind_of Harness::SynchronousQueue, app.config.harness.queue
+  end
 end

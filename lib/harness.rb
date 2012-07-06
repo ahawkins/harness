@@ -34,9 +34,9 @@ module Harness
 
     def queue=(val)
       if val.is_a? Symbol
-        @queue= "Harness::#{val.to_s.camelize}Queue".constantize.new
+        @queue = "Harness::#{val.to_s.camelize}Queue".constantize.new
       else
-        @queue= val
+        @queue = val
       end
     end
 
