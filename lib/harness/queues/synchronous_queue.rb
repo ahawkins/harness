@@ -15,6 +15,4 @@ module Harness
       Harness.logger
     end
   end
-  # Preserve previous spelling for backward compatibility
-  SyncronousQueue = SynchronousQueue
 end

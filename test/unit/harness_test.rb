@@ -19,12 +19,6 @@ class HarnessModuleTest < MiniTest::Unit::TestCase
     assert_kind_of Harness::SynchronousQueue, Harness.config.queue
   end
 
-  def test_can_set_the_queue_with_misspelled_symbol_for_backward_compat
-    Harness.config.queue = :syncronous
-
-    assert_kind_of Harness::SynchronousQueue, Harness.config.queue
-  end
-
   def test_can_set_the_queue_with_a_queue_instance
     Harness.config.queue = Harness::SynchronousQueue.new
 
