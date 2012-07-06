@@ -33,6 +33,7 @@ class ActiveSupportIntegration < IntegrationTest
 
   private
   def instrument(event)
+    require 'harness/integration/active_support'
     ActiveSupport::Notifications.instrument "#{event}.active_support" do |*args|
       # nada
     end
