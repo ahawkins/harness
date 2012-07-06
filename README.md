@@ -225,7 +225,7 @@ Harness.config.statsd.logger = Rails.logger
 
 # You can assign your own StatsD implementation
 # by setting the "backend" attribute
-Haraness.config.statsd.backend = CustomStatsD
+Harness.config.statsd.backend = CustomStatsD
 ```
 
 ## Rails Integration
