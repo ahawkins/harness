@@ -19,25 +19,28 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
     @counter.time = Time.now
     @counter.value = 1337
     @counter.units = :bytes
-
-    @backend = MiniTest::Mock.new
-    @backend.expect :host, 'foo'
-    @backend.expect :port, 'bar'
-
-    Harness::StatsdAdapter.config.backend = @backend
     Harness.config.namespace = nil
   end
 
   def test_gauge_is_logged
-    @backend.expect :gauge, true, [String, 55] 
+    mock_backend = MiniTest::Mock.new
+    mock_backend.expect :host, 'foo'
+    mock_backend.expect :port, 'bar'
+
+    Harness::StatsdAdapter.config.backend = mock_backend
+    mock_backend.expect :gauge, true, [String, 55] 
 
     assert @adapter.log_gauge(@gauge)
-    assert @backend.verify
+    assert mock_backend.verify
   end
 
   def test_logging_gauge_raises_an_exception_when_not_configured
-    @backend.expect :host, nil
-    @backend.expect :port, nil
+    mock_backend = MiniTest::Mock.new
+    mock_backend.expect :host, nil
+    mock_backend.expect :port, nil
+
+    Harness::StatsdAdapter.config.backend = mock_backend
+    mock_backend.expect :gauge, true, [String, 55] 
 
     assert_raises RuntimeError do
       @adapter.log_gauge @gauge
@@ -45,15 +48,23 @@ class StatsdAdapterTest < MiniTest::Unit::TestCase
   end
 
   def test_counter_is_logged
-    @backend.expect :increment, true, [String, 1337]
+    mock_backend = MiniTest::Mock.new
+    mock_backend.expect :host, 'foo'
+    mock_backend.expect :port, 'bar'
+
+    Harness::StatsdAdapter.config.backend = mock_backend
+    mock_backend.expect :increment, true, [String, 1337]
 
     assert @adapter.log_counter(@counter)
-    assert @backend.verify
+    assert mock_backend.verify
   end
 
   def test_logging_counter_raises_an_exception_when_not_configured
-    @backend.expect :host, nil
-    @backend.expect :port, nil
+    mock_backend = MiniTest::Mock.new
+    mock_backend.expect :host, nil
+    mock_backend.expect :port, nil
+
+    Harness::StatsdAdapter.config.backend = mock_backend
 
     assert_raises RuntimeError do
       @adapter.log_counter @counter
