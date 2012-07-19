@@ -8,6 +8,7 @@ Currently Supported Services:
 
 * Librato
 * Statsd (thanks to fluxlux)
+* Stathat
 
 Current Features:
 
@@ -226,6 +227,14 @@ Harness.config.statsd.logger = Rails.logger
 # You can assign your own StatsD implementation
 # by setting the "backend" attribute
 Harness.config.statsd.backend = CustomStatsD
+```
+
+### Stathat
+```ruby
+Harness.config.adapter = :stathat
+
+Harness.config.stathat.ezkey = 'example@example.com'
+
 ```
 
 ## Rails Integration
