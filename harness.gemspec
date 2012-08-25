@@ -24,7 +24,9 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "webmock"
   gem.add_development_dependency "resque"
   gem.add_development_dependency "sidekiq"
+  gem.add_development_dependency "delayed_job_active_record"
   gem.add_development_dependency "active_model_serializers"
   gem.add_development_dependency "rails"
+  gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "minitest"
 end
