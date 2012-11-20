@@ -47,15 +47,21 @@ end
 
 Add this line to your application's Gemfile:
 
-    gem 'harness'
+```
+gem 'harness'
+```
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install harness
+```
+$ gem install harness
+```
 
 ## Usage
 
@@ -230,11 +236,11 @@ Harness.config.statsd.backend = CustomStatsD
 ```
 
 ### Stathat
+
 ```ruby
 Harness.config.adapter = :stathat
 
 Harness.config.stathat.ezkey = 'example@example.com'
-
 ```
 
 ## Rails Integration
