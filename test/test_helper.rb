@@ -5,6 +5,8 @@ SimpleCov.start
 
 require 'resque'
 require 'sidekiq'
+require 'delayed_job_active_record'
+require 'sqlite3'
 
 require 'harness'
 

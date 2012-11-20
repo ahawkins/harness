@@ -52,6 +52,9 @@ module Harness
       elsif defined?(Sidekiq::Worker) && use_real_queue
         require 'harness/queues/sidekiq_queue'
         Harness.config.queue = :sidekiq
+      elsif defined?(Delayed::Worker) && use_real_queue
+        require 'harness/queues/delayed_job_queue'
+        Harness.config.queue = :delayed_job
       end
     end
 
