@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activesupport", "~> 3"
   gem.add_dependency "redis"
   gem.add_dependency "redis-namespace"
-  gem.add_dependency "statsd-instrument"
 
   gem.add_development_dependency "simplecov"
   gem.add_development_dependency "webmock"
@@ -29,4 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rails"
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "minitest"
+  gem.add_development_dependency "statsd-instrument"
 end

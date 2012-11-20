@@ -226,7 +226,9 @@ Harness.config.librato.token = 'your-api-key'
 
 Harness does **not** configure StatsD for you. It uses the StatsD class
 under the covers. If you've already configured that in your own way, great.
-If not, you can use the configuration proxy as described below.
+If not, you can use the configuration proxy as described below. You
+must also add `statsd-instrument` to your `Gemfile`. This is a soft
+dependency that is not installed for you.
 
 ```ruby
 Harness.config.adapter = :statsd
