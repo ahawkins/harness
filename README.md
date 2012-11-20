@@ -102,7 +102,14 @@ stored in redis and incremented. This means you can simply pass
 may also pass `:counter => 5` if you'd like to provide your own value.
 This value is stored in redis so the next time `:counter => true` will
 work correctly. You can reset all the counters back to zero by calling:
-`Harness.reset_counters!`.
+`Harness.reset_counters!`. 
+
+**NOTE**: You should use the bundled rake task to reset counters with 
+a cron job. This will prevent unbounded growth of this metadata. You
+can call `rake harness:reset_counters` to do this. You should call
+this rake task at whatever your longest measurable interval is. Here's
+an example: You log gauges every 12 hours. You should reset the
+counters every 12 hours. This issue is discussed [here](https://github.com/twinturbo/harness/issues/15).
 
 ```ruby
 class MyClass
