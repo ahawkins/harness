@@ -4,9 +4,9 @@ require File.expand_path('../lib/harness/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["twinturbo"]
   gem.email         = ["me@broadcastingadam.com"]
-  gem.description   = %q{}
+  gem.description   = %q{Log ActiveSupport::Notifications to various services like Librato or StatsD}
   gem.summary       = %q{}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/twinturbo/harness"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
