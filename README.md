@@ -47,20 +47,20 @@ end
 
 Add this line to your application's Gemfile:
 
-```
+```ruby
 gem 'harness'
 ```
 
 And then execute:
 
-```
-$ bundle
+```shell
+bundle
 ```
 
 Or install it yourself as:
 
-```
-$ gem install harness
+```shell
+gem install harness
 ```
 
 ## Usage
