@@ -11,7 +11,6 @@ require 'sqlite3'
 require 'harness'
 
 require 'minitest/unit'
-require 'minitest/pride'
 require 'minitest/autorun'
 
 require 'webmock/minitest'
