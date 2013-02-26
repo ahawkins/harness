@@ -5,7 +5,7 @@ require 'fileutils'
 class DelayedJobTest < IntegrationTest
   def setup
     super
-    
+
     tmp = File.expand_path('../../../tmp', __FILE__)
     db  = File.join(tmp, 'db.sqlite3')
 
