@@ -1,8 +1,14 @@
 # Harness
-[![Gem Version](https://badge.fury.io/rb/delayed_job.png)][gem]
 [![Build Status](https://secure.travis-ci.org/twinturbo/harness.png?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/twinturbo/harness.png?travis)][gemnasium]
+[![Gem Version](https://badge.fury.io/rb/harness.png)][gem]
 [![Code Climate](https://codeclimate.com/github/twinturbo/harness.png)][codeclimate]
+[![Dependency Status](https://gemnasium.com/twinturbo/harness.png?travis)][gemnasium]
+
+[gem]: https://rubygems.org/gems/harness
+[travis]: http://travis-ci.org/twinturbo/harness
+[gemnasium]: https://gemnasium.com/twinturbo/harness
+[codeclimate]: https://codeclimate.com/github/twinturbo/harness
+[coveralls]: https://coveralls.io/r/twinturbo/harness
 
 Harness connects measurements coming from `ActiveSupport::Notifications`
 to external metric tracking services. Counters are stored locally with
