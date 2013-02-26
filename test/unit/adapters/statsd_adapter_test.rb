@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'ostruct'
+require 'harness/adapters/statsd_adapter'
 
 class StatsdAdapterTest < MiniTest::Unit::TestCase
   def setup

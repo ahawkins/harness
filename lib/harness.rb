@@ -95,8 +95,6 @@ require 'harness/queues/synchronous_queue'
 require 'harness/adapters/librato_adapter'
 require 'harness/adapters/memory_adapter'
 require 'harness/adapters/null_adapter'
-require 'harness/adapters/statsd_adapter'
-require 'harness/adapters/stathat_adapter'
 
 require 'harness/railtie' if defined?(Rails)
 

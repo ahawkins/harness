@@ -214,7 +214,10 @@ counter = Harness::Counter.new :time => Time.now, :id => 'foo.bar'
 ## Configuration
 
 ### Librato
+
 ```ruby
+require 'harness/adapters/librato_adapter'
+
 Harness.config.adapter = :librato
 
 Harness.config.librato.email = 'example@example.com'
@@ -231,6 +234,8 @@ must also add `statsd-instrument` to your `Gemfile`. This is a soft
 dependency that is not installed for you.
 
 ```ruby
+require 'harness/adapters/statsd_adapter'
+
 Harness.config.adapter = :statsd
 
 # Harness.config.statsd is a proxy for the StatsD class
@@ -247,6 +252,8 @@ Harness.config.statsd.backend = CustomStatsD
 ### Stathat
 
 ```ruby
+require 'harness/adapters/statsd_adapter'
+
 Harness.config.adapter = :stathat
 
 Harness.config.stathat.ezkey = 'example@example.com'
@@ -256,7 +263,17 @@ Harness.config.stathat.ezkey = 'example@example.com'
 
 Harness will automatically log metrics coming from `ActionPack`,
 `ActiveRecord`, and `ActionMailer`. `ActiveSupport` instrumentation is
-disabled by default. Also, custom integrations are disabled by default.
+disabled by default. First require your adapter in an initializer
+Harness no longer requires adapters with external dependencies for
+you. Create a `config/initializers/harness.rb` and require your
+adapter in it:
+
+```ruby
+require 'harness/adapters/statsd_adapter'
+# other configuration
+```
+
+Also, custom integrations are disabled by default.
 You can turn on instrumentation for specific components like so:
 
 ```ruby

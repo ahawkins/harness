@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'harness/adapters/stathat_adapter'
 
 class StathatAdapterTest < MiniTest::Unit::TestCase
   def setup
