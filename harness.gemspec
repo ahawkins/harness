@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Harness::VERSION
 
-  gem.add_dependency "activesupport", "~> 3"
+  gem.add_dependency "activesupport", ">= 3"
   gem.add_dependency "redis"
   gem.add_dependency "redis-namespace"
 
@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sidekiq"
   gem.add_development_dependency "delayed_job_active_record"
   gem.add_development_dependency "active_model_serializers"
-  gem.add_development_dependency "rails", "~> 3"
+  gem.add_development_dependency "rails", ">= 3"
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "statsd-instrument"
 end
