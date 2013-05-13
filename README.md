@@ -163,7 +163,7 @@ class MyClass
 end
 
 # Now you can meter it
-meter = Harnes::Meter.new('important_method.my_class')
+meter = Harness::Meter.new('important_method.my_class')
 meter.per_second # returns a gauge
 meter.per_second.value # if you just want the number
 meter.per(1.hour).value # You can use your own interval
@@ -262,7 +262,7 @@ Harness.config.statsd.backend = CustomStatsD
 ### Stathat
 
 ```ruby
-require 'harness/adapters/statsd_adapter'
+require 'harness/adapters/stathat_adapter'
 
 Harness.config.adapter = :stathat
 
