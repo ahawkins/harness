@@ -31,6 +31,10 @@ module Harness
       Harness.logger = Rails.logger
     end
 
+    initializer "harness.source" do |app|
+      Harness.config.source = app.class.name.underscore.dasherize
+    end
+
     initializer "harness.redis" do
       if existing_url = ENV['REDISTOGO_URL'] || ENV['REDIS_URL']
         Harness.redis ||= Redis::Namespace.new('harness', :redis => Redis.connect(:url => existing_url))

@@ -24,6 +24,10 @@ module Harness
       Harness.log self
     end
 
+    def source
+      @source || Harness.config.source
+    end
+
     def attributes
       { 
         :id => id,

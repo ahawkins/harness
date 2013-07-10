@@ -17,7 +17,7 @@ module Harness
 
   class Config
     attr_reader :adapter, :queue
-    attr_accessor :namespace
+    attr_accessor :namespace, :source
     attr_reader :instrument
 
     def initialize

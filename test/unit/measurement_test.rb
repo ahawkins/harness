@@ -56,6 +56,13 @@ class MeasurementTest < MiniTest::Unit::TestCase
     assert_equal time, @measurement.time
   end
 
+  def test_source_defaults_to_config
+    Harness.config.source = 'foo'
+
+    @measurement = Harness::Measurement.new
+    assert_equal 'foo', @measurement.source
+  end
+
   def test_attributes
     hash = @measurement.attributes
 
