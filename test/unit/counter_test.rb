@@ -71,4 +71,14 @@ class CounterTest < MiniTest::Unit::TestCase
 
     assert_equal 'foo', counter.id
   end
+
+  def test_sets_the_period_from_the_event
+    base = Time.now
+
+    event = ActiveSupport::Notifications::Event.new "name", base - 1, Time.now, nil, :counter => {period: 30}
+
+    counter = Harness::Counter.from_event event
+
+    assert_equal 30, counter.period
+  end
 end

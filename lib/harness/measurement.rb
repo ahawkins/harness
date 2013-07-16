@@ -1,6 +1,6 @@
 module Harness
   class Measurement
-    attr_accessor :id, :name, :source, :time, :value, :units
+    attr_accessor :id, :name, :source, :time, :value, :units, :period
 
     def initialize(attributes = {})
       attributes.each_pair do |name, value|
@@ -35,7 +35,8 @@ module Harness
         :source => source,
         :time => time,
         :units => units,
-        :value => value
+        :value => value,
+        :period => period
       }
     end
   end
