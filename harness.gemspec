@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activesupport", ">= 3"
   gem.add_dependency "redis"
   gem.add_dependency "redis-namespace"
+  gem.add_dependency "multi_json"
 
   gem.add_development_dependency "simplecov"
   gem.add_development_dependency "webmock"

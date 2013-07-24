@@ -1,5 +1,7 @@
 require "harness/version"
 
+require 'multi_json'
+
 require 'redis'
 require 'redis/namespace'
 

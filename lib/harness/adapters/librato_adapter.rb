@@ -1,4 +1,3 @@
-require 'json'
 require 'uri'
 require 'net/http'
 
@@ -51,7 +50,7 @@ module Harness
 
         request.basic_auth config.email, config.token
         request['Content-Type'] = 'application/json'
-        request.body = params.to_json
+        request.body = MultiJson.dump params
 
         response = http.request request
 
