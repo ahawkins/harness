@@ -60,7 +60,7 @@ module Harness
 
         response = http.request request
 
-        unless response.code.to_i == 200
+        if response.code.to_i != 200
           text = %Q{
           Server Said: #{response.body}
           Sent: #{params.inspect}
