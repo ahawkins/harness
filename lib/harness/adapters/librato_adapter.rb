@@ -3,6 +3,12 @@ require 'net/http'
 
 module Harness
   class LibratoAdapter
+    class NameTooLong < Harness::LoggingError
+      def to_s
+        "Name cannot be more than 63 characters long"
+      end
+    end
+
     class Config 
       attr_accessor :email, :token
     end
@@ -12,7 +18,7 @@ module Harness
     end
 
     def log_gauge(gauge)
-      raise Harness::LoggingError if gauge.id.length > 63
+      raise NameTooLong if gauge.id.length > 63
 
       post({:gauges => [{
         :name => sanitize(gauge.id),
@@ -25,7 +31,7 @@ module Harness
     end
 
     def log_counter(counter)
-      raise Harness::LoggingError if counter.id.length > 63
+      raise NameTooLong if counter.id.length > 63
 
       post({:counters => [{
         :name => sanitize(counter.id),

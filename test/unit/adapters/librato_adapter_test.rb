@@ -77,7 +77,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   def test_logging_gauge_raises_an_exception_when_id_is_too_long
     @gauge.id = "f" * 64
 
-    assert_raises Harness::LoggingError do
+    assert_raises Harness::LibratoAdapter::NameTooLong do
       @adapter.log_gauge @gauge
     end
   end
@@ -153,7 +153,7 @@ class LibratoAdapterTest < MiniTest::Unit::TestCase
   def test_logging_counter_raises_an_exception_when_id_is_too_long
     @counter.id = "f" * 64
 
-    assert_raises Harness::LoggingError do
+    assert_raises Harness::LibratoAdapter::NameTooLong do
       @adapter.log_counter @counter
     end
   end
