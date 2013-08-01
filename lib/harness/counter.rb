@@ -13,16 +13,14 @@ module Harness
 
       counter.id ||= event.name
 
-      Harness.redis.sadd 'counters', counter.id
-
       if event.payload[:counter].is_a? Fixnum
         counter.value = event.payload[:counter]
       end
 
       if counter.value
-        Harness.redis.set counter.id, counter.value
+        Harness.redis.set "counters/#{counter.id}", counter.value
       else
-        counter.value = Harness.redis.incr(counter.id).to_i
+        counter.value = Harness.redis.incr("counters/#{counter.id}").to_i
       end
 
       counter

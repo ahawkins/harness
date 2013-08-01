@@ -76,9 +76,13 @@ module Harness
   end
 
   def self.reset_counters!
-    redis.smembers('counters').each do |counter|
+    counters.each do |counter|
       redis.set counter, 0
     end
+  end
+
+  def self.counters
+    redis.keys "counters/*"
   end
 end
 
