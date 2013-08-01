@@ -72,17 +72,9 @@ class CountersWithRedis < IntegrationTest
     instrument "event-counter", :counter => true
 
     assert_equal 1, redis.get("event-counter").to_i
-    assert_equal 1, redis.zcard("meters/event-counter").to_i
 
     Harness.reset_counters!
 
     assert_equal 0, redis.get("event-counter").to_i
-    assert_equal 0, redis.zcard("meters/event-counter").to_i
-  end
-
-  def test_counting_updates_sorted_set_in_redis
-    instrument "event-counter", :counter => true
-
-    assert_equal 1, redis.zcard("meters/event-counter")
   end
 end

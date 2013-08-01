@@ -78,7 +78,6 @@ module Harness
   def self.reset_counters!
     redis.smembers('counters').each do |counter|
       redis.set counter, 0
-      redis.del "meters/#{counter}"
     end
   end
 end
@@ -86,7 +85,6 @@ end
 require 'harness/measurement'
 require 'harness/counter'
 require 'harness/gauge'
-require 'harness/meter'
 
 require 'harness/instrumentation'
 

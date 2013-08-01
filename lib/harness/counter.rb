@@ -25,8 +25,6 @@ module Harness
         counter.value = Harness.redis.incr(counter.id).to_i
       end
 
-      Harness.redis.zadd "meters/#{counter.id}", counter.time.to_f, counter.value
-
       counter
     end
   end
