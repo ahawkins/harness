@@ -10,7 +10,7 @@ require 'active_support/ordered_options'
 
 module Harness
   class Config
-    attr_accessor :statsd
+    attr_accessor :statsd, :queue
     attr_accessor :source
     attr_reader :instrument
 
@@ -72,17 +72,24 @@ module Harness
   end
 
   def self.increment(*args)
-    config.statsd.increment(*args)
+    queue.push [:increment, args]
   end
 
   def self.timing(*args)
-    config.statsd.timing(*args)
+    queue.push [:timing, args]
   end
 
   def self.gauge(*args)
-    config.statsd.gauge(*args)
+    queue.push [:gauge, args]
+  end
+
+  def self.queue
+    config.queue
   end
 end
+
+require 'harness/synchronous_queue'
+require 'harness/threaded_queue'
 
 require 'harness/null_statsd'
 require 'harness/instrumentation'
@@ -94,3 +101,5 @@ require 'harness/gauges/memcached_gauge'
 require 'harness/integration/rack_instrumenter'
 
 require 'harness/railtie' if defined?(Rails)
+
+Harness.config.queue = Harness::ThreadedQueue.new

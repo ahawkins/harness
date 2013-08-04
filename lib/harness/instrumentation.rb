@@ -1,4 +1,4 @@
-ActiveSupport::Notifications.subscribe %r{.+} do |*args|
+ActiveSupport::Notifications.subscribe do |*args|
   event = ActiveSupport::Notifications::Event.new(*args)
   next if event.payload[:exception]
 

@@ -3,7 +3,6 @@ events = %w(receive deliver)
 events.each do |name|
   ActiveSupport::Notifications.subscribe "#{name}.action_mailer" do |*args|
     event = ActiveSupport::Notifications::Event.new(*args)
-    timer = Harness::Timer.new "action_mailer.#{name}", event.duration
-    timer.log
+    Harness.timing "action_mailer.#{name}", event.duration
   end
 end

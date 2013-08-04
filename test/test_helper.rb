@@ -38,6 +38,7 @@ end
 class MiniTest::Unit::TestCase
   def setup
     Harness.config.statsd = FakeStatsd.new
+    Harness.config.queue = Harness::SynchronousQueue.new
   end
 
   def assert_timer(name)
