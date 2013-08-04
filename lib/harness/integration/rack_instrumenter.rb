@@ -9,14 +9,9 @@ module Harness
         @app.call env
       end
 
-      statsd.increment "rack.request.#{status}"
+      Harness.increment "rack.request.#{status}"
 
       [status, headers, body]
-    end
-
-    private
-    def statsd
-      Harness.config.statsd
     end
   end
 end

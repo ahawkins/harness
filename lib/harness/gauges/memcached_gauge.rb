@@ -1,5 +1,5 @@
 module Harness
-  class MemcachedInstrumenter
+  class MemcachedGauge
     attr_reader :memcached
 
     def initialize(memcached)
@@ -31,13 +31,9 @@ module Harness
         hit_rate = 0
       end
 
-      statsd.gauge 'memcached.memory', memory
-      statsd.gauge 'memcached.keys', total_keys
-      statsd.gauge 'memcached.hit_rate', hit_rate
-    end
-
-    def statsd
-      Harness.config.statsd
+      Harness.gauge 'memcached.memory', memory
+      Harness.gauge 'memcached.keys', total_keys
+      Harness.gauge 'memcached.hit_rate', hit_rate
     end
   end
 end

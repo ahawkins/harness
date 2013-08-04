@@ -1,5 +1,5 @@
 module Harness
-  class RedisInstrumenter
+  class RedisGauge
     attr_reader :redis
 
     def initialize(redis)
@@ -8,11 +8,7 @@ module Harness
 
     def log
       info = redis.info
-      statsd.gauge 'redis.memory', info.fetch('used_memory').to_i
-    end
-
-    def statsd
-      Harness.config.statsd
+      Harness.gauge 'redis.memory', info.fetch('used_memory').to_i
     end
   end
 end

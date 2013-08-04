@@ -1,9 +1,9 @@
 require_relative '../test_helper'
 require 'redis'
 
-class RedisInstrumenterTest < MiniTest::Unit::TestCase
+class RedisGaugeTest < MiniTest::Unit::TestCase
   def test_reports_the_memory_as_a_gauge
-    instrumentor = Harness::RedisInstrumenter.new(Redis.new)
+    instrumentor = Harness::RedisGauge.new(Redis.new)
     instrumentor.log
 
     refute_empty gauges

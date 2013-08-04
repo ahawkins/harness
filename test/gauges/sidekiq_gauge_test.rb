@@ -14,37 +14,37 @@ end
 
 Sidekiq.logger = NullLogger.new
 
-class SidekiqInstrumenterTest < MiniTest::Unit::TestCase
+class SidekiqGaugeTest < MiniTest::Unit::TestCase
   def test_reports_processed_jobs
-    instrumentor = Harness::SidekiqInstrumenter.new
+    instrumentor = Harness::SidekiqGauge.new
     instrumentor.log
 
     assert_gauge 'sidekiq.jobs.processed'
   end
 
   def test_reports_enqueued_jobs
-    instrumentor = Harness::SidekiqInstrumenter.new
+    instrumentor = Harness::SidekiqGauge.new
     instrumentor.log
 
     assert_gauge 'sidekiq.jobs.enqueued'
   end
 
   def test_reports_failed_jobs
-    instrumentor = Harness::SidekiqInstrumenter.new
+    instrumentor = Harness::SidekiqGauge.new
     instrumentor.log
 
     assert_gauge 'sidekiq.jobs.failed'
   end
 
   def test_reports_retries
-    instrumentor = Harness::SidekiqInstrumenter.new
+    instrumentor = Harness::SidekiqGauge.new
     instrumentor.log
 
     assert_gauge 'sidekiq.jobs.retries'
   end
 
   def test_reports_scheduled_jobs
-    instrumentor = Harness::SidekiqInstrumenter.new
+    instrumentor = Harness::SidekiqGauge.new
     instrumentor.log
 
     assert_gauge 'sidekiq.jobs.scheduled'

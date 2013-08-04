@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 require 'sequel'
-require 'harness/instrumenters/sequel_instrumenter'
+require 'harness/integration/sequel'
 
 class SequelInstrumenterTest < MiniTest::Unit::TestCase
   attr_reader :db

@@ -9,7 +9,6 @@ events.each do |name|
     if name == 'process_action'
       counter = Harness::Counter.new "action_controller.#{name}"
       counter.log
-
     end
   end
 end

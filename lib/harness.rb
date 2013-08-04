@@ -85,9 +85,11 @@ module Harness
 end
 
 require 'harness/instrumentation'
-require 'harness/instrumenters/redis_instrumenter'
-require 'harness/instrumenters/sidekiq_instrumenter'
-require 'harness/instrumenters/memcached_instrumenter'
-require 'harness/instrumenters/rack_instrumenter'
+
+require 'harness/gauges/redis_gauge'
+require 'harness/gauges/sidekiq_gauge'
+require 'harness/gauges/memcached_gauge'
+
+require 'harness/integration/rack_instrumenter'
 
 require 'harness/railtie' if defined?(Rails)
