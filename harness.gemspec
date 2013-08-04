@@ -16,7 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Harness::VERSION
 
   gem.add_dependency "activesupport", ">= 3"
-  gem.add_dependency "multi_json"
   gem.add_dependency "statsd-ruby"
 
   gem.add_development_dependency "simplecov"
@@ -25,4 +24,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "dalli"
   gem.add_development_dependency "redis"
+  gem.add_development_dependency "sequel"
 end

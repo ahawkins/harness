@@ -70,6 +70,18 @@ module Harness
   def self.config
     @config ||= Config.new
   end
+
+  def self.increment(*args)
+    config.statsd.increment(*args)
+  end
+
+  def self.timing(*args)
+    config.statsd.timing(*args)
+  end
+
+  def self.gauge(*args)
+    config.statsd.gauge(*args)
+  end
 end
 
 require 'harness/instrumentation'
