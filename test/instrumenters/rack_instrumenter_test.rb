@@ -20,6 +20,9 @@ class RackInstrumenterTest < MiniTest::Unit::TestCase
   end
 
   def test_counts_requests_by_status_code
+    instrumentor = Harness::RackInstrumenter.new app
+    instrumentor.call({})
 
+    assert_increment 'rack.request.200'
   end
 end
