@@ -1,0 +1,4 @@
+{
+  port: 8125,
+  dumpMessages: true
+}
