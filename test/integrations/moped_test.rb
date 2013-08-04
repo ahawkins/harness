@@ -2,7 +2,7 @@ require_relative '../test_helper'
 require 'moped'
 require 'harness/integration/moped'
 
-class MopedInstrumenterTest < MiniTest::Unit::TestCase
+class MopedIntegrationTest < MiniTest::Unit::TestCase
   attr_reader :moped
 
   def setup
