@@ -3,64 +3,82 @@ require 'bundler/setup'
 require 'simplecov'
 SimpleCov.start
 
-require 'resque'
-require 'sidekiq'
-require 'delayed_job_active_record'
-require 'sqlite3'
-
 require 'harness'
 
 require 'minitest/unit'
 require 'minitest/autorun'
 
-require 'webmock/minitest'
+class FakeStatsd
+  Increment = Struct.new(:name, :rate)
+  Gauge = Struct.new(:name, :value, :rate)
 
-WebMock.disable_net_connect!
+  attr_reader :gauges, :counters, :timers, :increments
 
-Harness.logger = Logger.new '/dev/null'
+  def initialize
+    @gauges, @counters, @timers, @increments = [], [], [], []
+  end
 
-Harness.redis = Redis::Namespace.new 'harness-test', :redis => Redis.connect(:host => 'localhost', :port => '6379')
+  def timing(*args)
+    timers << Harness::Timer.new(*args)
+  end
 
-class IntegrationTest < MiniTest::Unit::TestCase
+  def increment(*args)
+    increments << Increment.new(*args)
+  end
+
+  def count(*args)
+    counters << Harness::Counter.new(*args)
+  end
+
+  def gauge(*args)
+    gauges << Gauge.new(*args)
+  end
+end
+
+class MiniTest::Unit::TestCase
   def setup
-    Harness.config.adapter = :memory
-    Harness.config.queue = :synchronous
-
-    gauges.clear ; counters.clear
-    redis.flushall
+    Harness.config.statsd = FakeStatsd.new
   end
 
-  def assert_gauge_logged(name)
-    refute_empty gauges.select {|g| g.name = name }, "Expected #{gauges.inspect} to contain a #{name} result"
+  def assert_timer(name)
+    refute_empty timers
+    timer = timers.find { |t| t.name == name }
+    assert timer, "Timer #{name} not logged!"
   end
 
-  def assert_counter_logged(name)
-    refute_empty counters.select {|c| c.name = name }, "Expected #{counters.inspect} to contain a #{name} result"
+  def assert_increment(name)
+    refute_empty increments
+    increment = increments.find { |i| i.name == name }
+    assert increment, "Increment #{name} not logged!"
   end
 
-  def refute_gauge_logged(name)
-    assert_empty gauges.select {|g| g.name = name }, "No gauge expected to be logged"
+  def assert_gauge(name)
+    refute_empty gauges
+    gauge = gauges.find { |g| g.name == name }
+    assert gauge, "gauge #{name} not logged!"
   end
 
-  def refute_counter_logged(name)
-    assert_empty counters.select {|c| c.name = name }, "No counter expected to be logged"
+  def instrument(name, data = {}, &block)
+    ActiveSupport::Notifications.instrument name, data, &block
   end
 
-  def gauges
-    Harness::MemoryAdapter.gauges
+  def statsd
+    Harness.config.statsd
+  end
+
+  def timers
+    statsd.timers
+  end
+
+  def increments
+    statsd.increments
   end
 
   def counters
-    Harness::MemoryAdapter.counters
+    statsd.counters
   end
 
-  def redis
-    Harness.redis
-  end
-
-  def instrument(name, data = {})
-    ActiveSupport::Notifications.instrument name, data do
-      # nothing
-    end
+  def gauges
+    statsd.gauges
   end
 end

@@ -1,32 +1,32 @@
-require 'test_helper'
+require_relative '../test_helper'
 
-class ActionViewIntegration < IntegrationTest
+class ActionViewIntegration < MiniTest::Unit::TestCase
   def test_logs_render_template
     instrument "render_template"
 
-    assert_gauge_logged "render_template.action_view"
+    assert_timer "action_view.render_template"
   end
 
   def test_logs_render_partial
     instrument "render_partial"
 
-    assert_gauge_logged "render_partial.action_view"
+    assert_timer "action_view.render_partial"
   end
 
   def test_skips_internal_partial_events
     instrument "!render_partial"
 
-    refute_gauge_logged "!render_partial.action_view"
+    assert_empty timers
   end
 
   def test_skips_internal_template_events
     instrument "!render_template"
 
-    refute_gauge_logged "!render_template.action_view"
+    assert_empty timers
   end
 
   private
   def instrument(event)
-    ActiveSupport::Notifications.instrument "#{event}.action_view"
+    super "#{event}.action_view", { }
   end
 end
