@@ -84,6 +84,7 @@ module Harness
   end
 end
 
+require 'harness/null_statsd'
 require 'harness/instrumentation'
 
 require 'harness/gauges/redis_gauge'
