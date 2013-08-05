@@ -1,7 +1,23 @@
-ActiveSupport::Notifications.subscribe do |*args|
-  event = ActiveSupport::Notifications::Event.new(*args)
-  next if event.payload[:exception]
+require 'active_support/core_ext/module'
+require 'active_support/concern'
 
-  Harness::Timer.from_event(event).log if event.payload[:timer]
-  Harness::Counter.from_event(event).log if event.payload[:counter]
+module Harness
+  module Instrumentation
+    extend ActiveSupport::Concern
+
+    included do
+      delegate :timing, :time, :gauge, :increment, to: :harness
+    end
+
+    def instrument(name, sample_rate = 1, &block)
+      result = time name, sample_rate, &block
+      increment name, 1, sample_rate
+      result
+    end
+
+    private
+    def harness
+      Harness
+    end
+  end
 end

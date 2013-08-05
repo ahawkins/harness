@@ -99,7 +99,9 @@ require 'harness/synchronous_queue'
 require 'harness/threaded_queue'
 
 require 'harness/null_statsd'
+
 require 'harness/instrumentation'
+require 'harness/subscription'
 
 require 'harness/gauges/redis_gauge'
 require 'harness/gauges/sidekiq_gauge'

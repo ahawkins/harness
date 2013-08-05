@@ -9,7 +9,7 @@ require 'minitest/unit'
 require 'minitest/autorun'
 
 class FakeStatsd
-  Increment = Struct.new(:name, :rate)
+  Increment = Struct.new(:name, :amount, :rate)
   Gauge = Struct.new(:name, :value, :rate)
 
   attr_reader :gauges, :counters, :timers, :increments
