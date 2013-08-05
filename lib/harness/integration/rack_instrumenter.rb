@@ -1,15 +1,17 @@
 module Harness
   class RackInstrumenter
+    include Instrumentation
+
     def initialize(app)
       @app = app
     end
 
     def call(env)
-      status, headers, body = ActiveSupport::Notifications.instrument 'rack.request', timer: true, counter: true do
+      status, headers, body = instrument 'rack.request' do
         @app.call env
       end
 
-      Harness.increment "rack.request.#{status}"
+      increment "rack.request.#{status}"
 
       [status, headers, body]
     end
