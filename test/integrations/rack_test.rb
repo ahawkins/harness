@@ -25,4 +25,14 @@ class RackInstrumenterTest < MiniTest::Unit::TestCase
 
     assert_increment 'rack.request.200'
   end
+
+
+  def test_accepts_a_namespace
+    instrumentor = Harness::RackInstrumenter.new app, 'foo'
+    instrumentor.call({})
+
+    assert_increment 'rack.request.foo.200'
+    assert_increment 'rack.request.foo'
+    assert_timer 'rack.request.foo'
+  end
 end
