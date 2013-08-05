@@ -6,13 +6,7 @@ module Harness
     extend ActiveSupport::Concern
 
     included do
-      delegate :timing, :time, :gauge, :increment, to: :harness
-    end
-
-    def instrument(name, sample_rate = 1, &block)
-      result = time name, sample_rate, &block
-      increment name, 1, sample_rate
-      result
+      delegate :timing, :time, :gauge, :increment, :instrument, to: :harness
     end
 
     private

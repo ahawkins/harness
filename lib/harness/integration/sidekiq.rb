@@ -2,13 +2,14 @@ module Sidekiq
   module Middleware
     module Server
       class HarnessInstrumentation
-        def call(worker_class, item, queue)
+        include Harness::Instrumentation
 
-          ActiveSupport::Notifications.instrument "sidekiq.#{worker_class.underscore}", counter: true, timer: true do
+        def call(worker_class, item, queue)
+          instrument "sidekiq.#{worker_class.underscore}" do
             yield
           end
 
-          ActiveSupport::Notifications.instrument "sidekiq.job", counter: true
+          increment "sidekiq.job"
         end
       end
     end
