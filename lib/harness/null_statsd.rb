@@ -8,6 +8,10 @@ module Harness
 
     end
 
+    def time(*args, &block)
+      yield block
+    end
+
     def timing(*args)
 
     end
