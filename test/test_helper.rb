@@ -22,6 +22,13 @@ class FakeStatsd
     timers << Harness::Timer.new(*args)
   end
 
+  def time(stat, sample_rate = 1)
+    start = Time.now
+    result = yield
+    timing(stat, ((Time.now - start) * 1000).round, sample_rate)
+    result
+  end 
+
   def increment(*args)
     increments << Increment.new(*args)
   end

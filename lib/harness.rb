@@ -79,6 +79,13 @@ module Harness
     queue.push [:timing, args]
   end
 
+  def self.time(stat, sample_rate = 1)
+    start = Time.now
+    result = yield
+    timing(stat, ((Time.now - start) * 1000).round, sample_rate)
+    result
+  end
+
   def self.gauge(*args)
     queue.push [:gauge, args]
   end
