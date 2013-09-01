@@ -13,7 +13,7 @@ module Harness
           method_name = msg.first
           args = msg.last
 
-          Harness.config.statsd.__send__ method_name, *args
+          Harness.config.collector.__send__ method_name, *args
         end
       end
     end

@@ -8,7 +8,7 @@ require 'harness'
 require 'minitest/unit'
 require 'minitest/autorun'
 
-class FakeStatsd
+class FakeCollector
   Increment = Struct.new(:name, :amount, :rate)
   Gauge = Struct.new(:name, :value, :rate)
 
@@ -44,7 +44,7 @@ end
 
 class MiniTest::Unit::TestCase
   def setup
-    Harness.config.statsd = FakeStatsd.new
+    Harness.config.collector = FakeCollector.new
     Harness.config.queue = Harness::SynchronousQueue.new
   end
 
@@ -70,23 +70,23 @@ class MiniTest::Unit::TestCase
     ActiveSupport::Notifications.instrument name, data, &block
   end
 
-  def statsd
-    Harness.config.statsd
+  def collector
+    Harness.config.collector
   end
 
   def timers
-    statsd.timers
+    collector.timers
   end
 
   def increments
-    statsd.increments
+    collector.increments
   end
 
   def counters
-    statsd.counters
+    collector.counters
   end
 
   def gauges
-    statsd.gauges
+    collector.gauges
   end
 end

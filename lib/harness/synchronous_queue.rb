@@ -4,11 +4,11 @@ module Harness
       method_name = msg.first
       args = msg.last
 
-      statsd.__send__ method_name, *args
+      collector.__send__ method_name, *args
     end
 
-    def statsd
-      Harness.config.statsd
+    def collector
+      Harness.config.collector
     end
   end
 end

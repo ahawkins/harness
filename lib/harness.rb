@@ -10,7 +10,7 @@ require 'active_support/ordered_options'
 
 module Harness
   class Config
-    attr_accessor :statsd, :queue
+    attr_accessor :collector, :queue
     attr_accessor :source
     attr_reader :instrument
 
@@ -53,16 +53,16 @@ module Harness
     end
 
     def log
-      Harness.config.statsd.timing name, ms, sample_rate
+      Harness.config.collector.timing name, ms, sample_rate
     end
   end
 
   class Counter < Measurement
     def log
       if value.nil?
-        Harness.config.statsd.increment name, sample_rate
+        Harness.config.collector.increment name, sample_rate
       else
-        Harness.config.statsd.count name, value, sample_rate
+        Harness.config.collector.count name, value, sample_rate
       end
     end
   end
@@ -104,7 +104,7 @@ end
 require 'harness/synchronous_queue'
 require 'harness/threaded_queue'
 
-require 'harness/null_statsd'
+require 'harness/null_collector'
 
 require 'harness/instrumentation'
 require 'harness/subscription'
