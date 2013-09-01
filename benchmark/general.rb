@@ -2,12 +2,10 @@ require 'bundler/setup'
 require 'statsd'
 require 'harness'
 require 'benchmark'
-require 'redis'
 
 Harness.config.statsd = Statsd.new
 
 n = 10_000
-redis = Redis.new
 
 Benchmark.bm 20 do |x|
   x.report 'Notifications' do
