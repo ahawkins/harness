@@ -23,7 +23,7 @@ module Harness
     end
 
     def collector
-      Harness.config.collector
+      Harness.collector
     end
   end
 end

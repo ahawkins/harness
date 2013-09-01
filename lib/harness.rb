@@ -99,6 +99,10 @@ module Harness
   def self.queue
     config.queue
   end
+
+  def self.collector
+    config.collector
+  end
 end
 
 require 'harness/synchronous_queue'
