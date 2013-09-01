@@ -13,13 +13,17 @@ module Harness
           method_name = msg.first
           args = msg.last
 
-          Harness.config.collector.__send__ method_name, *args
+          collector.__send__ method_name, *args
         end
       end
     end
 
     def push(msg)
       queue.push msg
+    end
+
+    def collector
+      Harness.config.collector
     end
   end
 end
