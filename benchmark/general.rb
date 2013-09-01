@@ -31,20 +31,6 @@ Benchmark.bm 20 do |x|
       Harness.increment "test-#{i}"
     end
   end
-
-  x.report 'Legacy' do
-    n.times do |i|
-      redis.zadd 'meters', i, Time.now.to_i
-      redis.sadd 'counters', i
-
-      # simulate calls which would go to sidekiq
-      redis.smembers 'workers'
-      redis.sadd 'workers.foo', i
-      redis.sadd 'workers.foo', rand
-
-      ActiveSupport::Notifications.instrument 'test', counter: true
-    end
-  end
 end
 
 redis.flushdb
