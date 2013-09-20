@@ -7,7 +7,7 @@ module Harness
     end
 
     def call(env)
-      status, headers, body = instrument stat_name('rack.request') do
+      status, headers, body = instrument stat_name('rack.request', 'all') do
         @app.call env
       end
 
@@ -16,12 +16,8 @@ module Harness
       [status, headers, body]
     end
 
-    def stat_name(name)
-      if @namespace
-        "#{name}.#{@namespace}"
-      else
-        name
-      end
+    def stat_name(name, type = nil)
+      [name, @namespace, type].compact.join('.')
     end
   end
 end
