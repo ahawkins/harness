@@ -96,6 +96,8 @@ class ActiveSupportTestCase < MiniTest::Unit::TestCase
     Harness.config.queue = Harness::ThreadedQueue.new
 
     Harness.increment 'foo'
+    Harness.count 'foo', 5
+
     Harness.gauge 'foo', 0.5
 
     Harness.timing 'foo', 0.5, 1

@@ -55,16 +55,16 @@ module Harness
     end
 
     def log
-      Harness.config.collector.timing name, ms, sample_rate
+      Harness.timing name, ms, sample_rate
     end
   end
 
   class Counter < Measurement
     def log
       if value.nil?
-        Harness.config.collector.increment name, sample_rate
+        Harness.increment name, sample_rate
       else
-        Harness.config.collector.count name, value, sample_rate
+        Harness.count name, value, sample_rate
       end
     end
   end
@@ -79,6 +79,10 @@ module Harness
 
   def self.timing(*args)
     queue.push [:timing, args]
+  end
+
+  def self.count(*args)
+    queue.push [:count, args]
   end
 
   def self.time(stat, sample_rate = 1)
