@@ -16,6 +16,11 @@ class InstrumentationTest < MiniTest::Unit::TestCase
     assert_increment 'foo'
   end
 
+  def test_can_use_decrements
+    worker.decrement 'foo', 5, 0.5
+    assert_decrement 'foo'
+  end
+
   def test_can_use_gauges
     worker.gauge 'foo', 5, 0.5
     assert_gauge 'foo'

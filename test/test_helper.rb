@@ -12,12 +12,13 @@ Thread.abort_on_exception = true
 
 class FakeCollector
   Increment = Struct.new(:name, :amount, :rate)
+  Decrement = Struct.new(:name, :amount, :rate)
   Gauge = Struct.new(:name, :value, :rate)
 
-  attr_reader :gauges, :counters, :timers, :increments
+  attr_reader :gauges, :counters, :timers, :increments, :decrements
 
   def initialize
-    @gauges, @counters, @timers, @increments = [], [], [], []
+    @gauges, @counters, @timers, @increments, @decrements = [], [], [], [], []
   end
 
   def timing(*args)
@@ -33,6 +34,10 @@ class FakeCollector
 
   def increment(*args)
     increments << Increment.new(*args)
+  end
+
+  def decrement(*args)
+    decrements << Decrement.new(*args)
   end
 
   def count(*args)
@@ -62,6 +67,12 @@ class MiniTest::Unit::TestCase
     assert increment, "Increment #{name} not logged!"
   end
 
+  def assert_decrement(name)
+    refute_empty decrements
+    decrement = decrements.find { |i| i.name == name }
+    assert decrement, "decrement #{name} not logged!"
+  end
+
   def assert_gauge(name)
     refute_empty gauges
     gauge = gauges.find { |g| g.name == name }
@@ -82,6 +93,10 @@ class MiniTest::Unit::TestCase
 
   def increments
     collector.increments
+  end
+
+  def decrements
+    collector.decrements
   end
 
   def counters

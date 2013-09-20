@@ -6,6 +6,7 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     Harness.config.queue = Harness::SynchronousQueue.new
 
     Harness.increment 'foo', 0.6
+    Harness.decrement 'foo', 0.5
     Harness.count 'foo', 5, 0.5
 
     Harness.gauge 'foo', 0.5, 0.1

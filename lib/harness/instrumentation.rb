@@ -6,7 +6,7 @@ module Harness
     extend ActiveSupport::Concern
 
     included do
-      delegate :timing, :time, :gauge, :increment, :instrument, to: :harness
+      delegate :timing, :time, :gauge, :increment, :decrement, :instrument, to: :harness
     end
 
     private

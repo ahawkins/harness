@@ -77,6 +77,10 @@ module Harness
     queue.push [:increment, args]
   end
 
+  def self.decrement(*args)
+    queue.push [:decrement, args]
+  end
+
   def self.timing(*args)
     queue.push [:timing, args]
   end
