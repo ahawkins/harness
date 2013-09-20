@@ -1,13 +1,15 @@
 require "harness/version"
 
+require 'statsd'
+
 require 'active_support/notifications'
+
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/core_ext/numeric'
 require 'active_support/core_ext/integer'
 
 require 'active_support/ordered_options'
-
 
 module Harness
   class Config

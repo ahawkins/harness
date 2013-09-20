@@ -1,5 +1,4 @@
 require_relative 'test_helper'
-require 'statsd'
 
 class ActiveSupportTestCase < MiniTest::Unit::TestCase
   def test_timers_are_logged
