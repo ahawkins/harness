@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class ActiveSupportTestCase < MiniTest::Unit::TestCase
+class ActiveSupportNotificationsTestCase < MiniTest::Unit::TestCase
   def test_timers_are_logged
     instrument 'test', timer: true
 
