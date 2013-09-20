@@ -49,4 +49,17 @@ class InstrumentationTest < MiniTest::Unit::TestCase
     assert_increment 'foo'
     assert_timer 'foo'
   end
+
+  def test_also_works_with_extend
+    extended = Class.new do
+      extend Harness::Instrumentation
+    end
+
+    assert_respond_to extended, :increment
+    assert_respond_to extended, :decrement
+    assert_respond_to extended, :time
+    assert_respond_to extended, :timing
+    assert_respond_to extended, :gauge
+    assert_respond_to extended, :instrument
+  end
 end

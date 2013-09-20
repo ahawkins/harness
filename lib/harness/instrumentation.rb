@@ -1,17 +1,27 @@
-require 'active_support/core_ext/module'
-require 'active_support/concern'
-
 module Harness
   module Instrumentation
-    extend ActiveSupport::Concern
-
-    included do
-      delegate :timing, :time, :gauge, :increment, :decrement, :instrument, to: :harness
+    def timing(*args)
+      Harness.timing *args
     end
 
-    private
-    def harness
-      Harness
+    def time(*args, &block)
+      Harness.time *args, &block
+    end
+
+    def gauge(*args)
+      Harness.gauge *args
+    end
+
+    def increment(*args)
+      Harness.increment *args
+    end
+
+    def decrement(*args)
+      Harness.decrement *args
+    end
+
+    def instrument(*args, &block)
+      Harness.instrument *args, &block
     end
   end
 end
