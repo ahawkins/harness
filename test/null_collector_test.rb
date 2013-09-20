@@ -1,10 +1,10 @@
 require_relative 'test_helper'
 
-class NullStatsdTest < MiniTest::Unit::TestCase
+class NullCollectorTest < MiniTest::Unit::TestCase
   attr_reader :statsd
 
   def setup
-    @statsd = Harness::NullStatsd.new
+    @statsd = Harness::NullCollector.new
   end
 
   def test_respond_to_increment

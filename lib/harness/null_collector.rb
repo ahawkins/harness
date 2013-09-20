@@ -1,5 +1,5 @@
 module Harness
-  class NullStatsd
+  class NullCollector
     def increment(*args)
 
     end
