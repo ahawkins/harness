@@ -14,7 +14,6 @@ require 'active_support/ordered_options'
 module Harness
   class Config
     attr_accessor :collector, :queue
-    attr_accessor :source
     attr_reader :instrument
 
     def initialize

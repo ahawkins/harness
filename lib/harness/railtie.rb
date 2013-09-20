@@ -15,10 +15,6 @@ module Harness
     # config.harness.instrument.sidekiq = true
     # config.harness.instrument.active_model_serializers = true
 
-    initializer "harness.source" do |app|
-      Harness.config.source = app.class.name.underscore.dasherize
-    end
-
     initializer "harness.instrumentation" do |app|
       app.config.harness.instrument.each_pair do |integration, value|
         require "harness/integration/#{integration}" if value
