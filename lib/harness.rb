@@ -88,7 +88,7 @@ module Harness
 
   def self.instrument(name, sample_rate = 1, &block)
     result = time name, sample_rate, &block
-    increment name, 1, sample_rate
+    increment name, sample_rate
     result
   end
 
