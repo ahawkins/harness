@@ -12,12 +12,12 @@ class InstrumentationTest < MiniTest::Unit::TestCase
   end
 
   def test_can_use_increments
-    worker.increment 'foo', 5, 0.5
+    worker.increment 'foo', 0.5
     assert_increment 'foo'
   end
 
   def test_can_use_decrements
-    worker.decrement 'foo', 5, 0.5
+    worker.decrement 'foo', 0.5
     assert_decrement 'foo'
   end
 
