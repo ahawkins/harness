@@ -8,6 +8,8 @@ require 'harness'
 require 'minitest/unit'
 require 'minitest/autorun'
 
+Thread.abort_on_exception = true
+
 class FakeCollector
   Increment = Struct.new(:name, :amount, :rate)
   Gauge = Struct.new(:name, :value, :rate)

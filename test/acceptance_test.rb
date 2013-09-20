@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'statsd'
 
 class ActiveSupportTestCase < MiniTest::Unit::TestCase
   def test_timers_are_logged
@@ -89,5 +90,23 @@ class ActiveSupportTestCase < MiniTest::Unit::TestCase
     end
 
     assert_empty counters
+  end
+
+  def test_works_with_actual_statsd
+    Harness.config.collector = Statsd.new
+    Harness.config.queue = Harness::ThreadedQueue.new
+
+    Harness.increment 'foo'
+    Harness.gauge 'foo', 0.5
+
+    Harness.timing 'foo', 0.5, 1
+
+    Harness.time 'foo' do
+      true
+    end
+
+    Harness.instrument 'foo' do
+      true
+    end
   end
 end

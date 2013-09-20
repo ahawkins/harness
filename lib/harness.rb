@@ -8,6 +8,7 @@ require 'active_support/core_ext/integer'
 
 require 'active_support/ordered_options'
 
+
 module Harness
   class Config
     attr_accessor :collector, :queue
