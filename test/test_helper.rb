@@ -8,6 +8,10 @@ require 'harness'
 require 'minitest/unit'
 require 'minitest/autorun'
 
+require 'webmock/minitest'
+
+WebMock.disable_net_connect!
+
 Thread.abort_on_exception = true
 
 class FakeCollector
@@ -30,7 +34,7 @@ class FakeCollector
     result = yield
     timing(stat, ((Time.now - start) * 1000).round, sample_rate)
     result
-  end 
+  end
 
   def increment(*args)
     increments << Increment.new(*args)

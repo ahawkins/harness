@@ -26,4 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "redis"
   gem.add_development_dependency "sequel"
   gem.add_development_dependency "moped", ">= 2.0.0"
+  gem.add_development_dependency "webmock"
 end
