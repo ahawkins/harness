@@ -9,7 +9,7 @@ class Redis
     def call_with_instrumentation(args, &block)
       method_name = args[0].is_a?(Array) ? args[0][0] : args[0]
 
-      instrument "redis.#{method_name}" do
+      time "redis.#{method_name}" do
         call_without_instrumentation args, &block
       end
     end

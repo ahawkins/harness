@@ -26,30 +26,21 @@ module Sequel
     def log_duration_with_instrumentation(time, sql)
       duration = time / 1000
 
-      Harness.increment 'sequel.query'
       Harness.timing 'sequel.query', duration
 
       op = sql[0..5]
       case op
       when 'SELECT'
-        Harness.increment 'sequel.select'
         Harness.timing 'sequel.select', duration
-        Harness.increment 'sequel.read'
         Harness.timing 'sequel.read', duration
       when 'UPDATE'
-        Harness.increment 'sequel.update'
         Harness.timing 'sequel.update', duration
-        Harness.increment 'sequel.write'
         Harness.timing 'sequel.write', duration
       when 'INSERT'
-        Harness.increment 'sequel.insert'
         Harness.timing 'sequel.insert', duration
-        Harness.increment 'sequel.write'
         Harness.timing 'sequel.write', duration
       when 'DELETE'
-        Harness.increment 'sequel.delete'
         Harness.timing 'sequel.delete', duration
-        Harness.increment 'sequel.write'
         Harness.timing 'sequel.write', duration
       end
 

@@ -4,6 +4,5 @@ events.each do |name|
   ActiveSupport::Notifications.subscribe "#{name}.active_support" do |*args|
     event = ActiveSupport::Notifications::Event.new(*args)
     Harness.timing "active_support.#{name}", event.duration
-    Harness.increment "active_support.#{name}"
   end
 end

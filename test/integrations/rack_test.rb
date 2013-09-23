@@ -12,13 +12,6 @@ class RackInstrumenterTest < MiniTest::Unit::TestCase
     assert_timer 'rack.request.all'
   end
 
-  def test_counts_requests_per_second
-    instrumentor = Harness::RackInstrumenter.new app
-    instrumentor.call({})
-
-    assert_increment 'rack.request.all'
-  end
-
   def test_counts_requests_by_status_code
     instrumentor = Harness::RackInstrumenter.new app
     instrumentor.call({})
@@ -31,7 +24,6 @@ class RackInstrumenterTest < MiniTest::Unit::TestCase
     instrumentor.call({})
 
     assert_increment 'rack.request.foo.200'
-    assert_increment 'rack.request.foo.all'
     assert_timer 'rack.request.foo.all'
   end
 end

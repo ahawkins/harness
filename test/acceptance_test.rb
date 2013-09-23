@@ -16,9 +16,5 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     Harness.time 'foo', 1 do
       true
     end
-
-    Harness.instrument 'foo', 1 do
-      true
-    end
   end
 end

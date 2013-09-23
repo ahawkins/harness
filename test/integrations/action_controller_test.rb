@@ -23,7 +23,6 @@ class ActionControllerIntegration < MiniTest::Unit::TestCase
     instrument "process_action"
 
     assert_timer "action_controller.process_action"
-    assert_increment "action_controller.process_action"
   end
 
   def test_logs_send_file

@@ -96,12 +96,6 @@ module Harness
     result
   end
 
-  def self.instrument(name, sample_rate = 1, &block)
-    result = time name, sample_rate, &block
-    increment name, sample_rate
-    result
-  end
-
   def self.gauge(*args)
     queue.push [:gauge, args]
   end

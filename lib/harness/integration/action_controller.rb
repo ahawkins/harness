@@ -5,6 +5,5 @@ events.each do |name|
     event = ActiveSupport::Notifications::Event.new(*args)
 
     Harness.timing "action_controller.#{name}", event.duration
-    Harness.increment "action_controller.#{name}" if name == 'process_action'
   end
 end

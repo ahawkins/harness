@@ -40,16 +40,6 @@ class InstrumentationTest < MiniTest::Unit::TestCase
     assert_timer 'foo'
   end
 
-  def test_instruments_timing_and_counters
-    result = worker.instrument 'foo', 0.5 do
-      'bar'
-    end
-
-    assert_equal 'bar', result, "#instrument did not return block's value"
-    assert_increment 'foo'
-    assert_timer 'foo'
-  end
-
   def test_also_works_with_extend
     extended = Class.new do
       extend Harness::Instrumentation
@@ -60,6 +50,5 @@ class InstrumentationTest < MiniTest::Unit::TestCase
     assert_respond_to extended, :time
     assert_respond_to extended, :timing
     assert_respond_to extended, :gauge
-    assert_respond_to extended, :instrument
   end
 end

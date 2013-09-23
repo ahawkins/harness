@@ -19,9 +19,5 @@ module Harness
     def decrement(*args)
       Harness.decrement *args
     end
-
-    def instrument(*args, &block)
-      Harness.instrument *args, &block
-    end
   end
 end

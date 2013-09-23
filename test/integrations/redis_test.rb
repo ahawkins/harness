@@ -13,6 +13,6 @@ class RedisInstegrationTest < MiniTest::Unit::TestCase
   def test_operations_are_timed
     redis.set 'foo', 'bar'
 
-    assert_increment 'redis.set'
+    assert_timer 'redis.set'
   end
 end

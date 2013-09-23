@@ -7,7 +7,7 @@ module Harness
     end
 
     def call(env)
-      status, headers, body = instrument stat_name('rack.request', 'all') do
+      status, headers, body = time stat_name('rack.request', 'all') do
         @app.call env
       end
 

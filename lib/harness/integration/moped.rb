@@ -19,24 +19,16 @@ ActiveSupport::Notifications.subscribe "moped.operation" do |*args|
 
   case op.op_code
   when 2004
-    Harness.increment 'moped.query'
     Harness.timing 'moped.query', event.duration
-    Harness.increment 'moped.read'
     Harness.timing 'moped.read', event.duration
   when 2002
-    Harness.increment 'moped.insert'
     Harness.timing 'moped.insert', event.duration
-    Harness.increment 'moped.write'
     Harness.timing 'moped.write', event.duration
   when 2001
-    Harness.increment 'moped.update'
     Harness.timing 'moped.update', event.duration
-    Harness.increment 'moped.write'
     Harness.timing 'moped.write', event.duration
   when 2006
-    Harness.increment 'moped.remove'
     Harness.timing 'moped.remove', event.duration
-    Harness.increment 'moped.write'
     Harness.timing 'moped.write', event.duration
   end
 end

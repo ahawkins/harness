@@ -5,7 +5,7 @@ module Sidekiq
         include Harness::Instrumentation
 
         def call(worker_class, item, queue)
-          instrument "sidekiq.#{worker_class.underscore}" do
+          time "sidekiq.#{worker_class.underscore}" do
             yield
           end
 

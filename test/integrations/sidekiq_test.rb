@@ -13,12 +13,6 @@ class SidekiqIntegrationTest < MiniTest::Unit::TestCase
     assert_timer "sidekiq.report"
   end
 
-  def test_measures_jobs_per_second
-    middleware.call("report", nil, nil) { }
-
-    assert_increment "sidekiq.report"
-  end
-
   def tests_logs_a_counter_of_all_jobs
     middleware.call("reports", nil, nil) { }
 
