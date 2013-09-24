@@ -260,6 +260,11 @@ class VarnishGaugeTest < MiniTest::Unit::TestCase
     assert_gauge 'varnish.requests'
   end
 
+  def test_measures_bandwith
+    log
+    assert_gauge 'varnish.bandwidth'
+  end
+
   private
   def log
     gauge.log

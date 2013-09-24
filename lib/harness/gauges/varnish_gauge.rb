@@ -31,6 +31,10 @@ module Harness
 
       gauge 'varnish.connections', body.fetch('client_conn').fetch('value')
       gauge 'varnish.requests', body.fetch('client_req').fetch('value')
+
+      header_bytes = body.fetch('s_hdrbytes').fetch('value')
+      body_bytes = body.fetch('s_bodybytes').fetch('value')
+      gauge 'varnish.bandwidth', header_bytes + body_bytes
     end
   end
 end
