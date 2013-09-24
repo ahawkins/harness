@@ -121,6 +121,7 @@ require 'harness/gauges/redis_gauge'
 require 'harness/gauges/sidekiq_gauge'
 require 'harness/gauges/memcached_gauge'
 require 'harness/gauges/haproxy_gauge'
+require 'harness/gauges/varnish_gauge'
 
 require 'harness/integration/rack_instrumenter'
 
