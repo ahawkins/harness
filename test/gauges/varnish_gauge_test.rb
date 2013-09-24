@@ -250,6 +250,16 @@ class VarnishGaugeTest < MiniTest::Unit::TestCase
     assert_gauge 'varnish.cached'
   end
 
+  def test_measures_connections
+    log
+    assert_gauge 'varnish.connections'
+  end
+
+  def test_measures_requests
+    log
+    assert_gauge 'varnish.requests'
+  end
+
   private
   def log
     gauge.log

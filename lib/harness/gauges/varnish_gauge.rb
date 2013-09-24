@@ -28,6 +28,9 @@ module Harness
       gauge 'varnish.hit_rate', hit_rate
 
       gauge 'varnish.cached', body.fetch('n_object').fetch('value')
+
+      gauge 'varnish.connections', body.fetch('client_conn').fetch('value')
+      gauge 'varnish.requests', body.fetch('client_req').fetch('value')
     end
   end
 end
