@@ -49,4 +49,15 @@ class SidekiqGaugeTest < MiniTest::Unit::TestCase
 
     assert_gauge 'sidekiq.jobs.scheduled'
   end
+
+  def test_logs_all_metrics_in_given_namespace
+    instrumentor = Harness::SidekiqGauge.new 'foo'
+    instrumentor.log
+
+    assert_gauge 'foo.sidekiq.jobs.processed'
+    assert_gauge 'foo.sidekiq.jobs.enqueued'
+    assert_gauge 'foo.sidekiq.jobs.failed'
+    assert_gauge 'foo.sidekiq.jobs.retries'
+    assert_gauge 'foo.sidekiq.jobs.scheduled'
+  end
 end
