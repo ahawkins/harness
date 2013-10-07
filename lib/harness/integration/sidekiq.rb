@@ -4,8 +4,8 @@ module Sidekiq
       class HarnessInstrumentation
         include Harness::Instrumentation
 
-        def call(worker_class, item, queue)
-          time "sidekiq.#{worker_class.underscore}" do
+        def call(worker, item, queue)
+          time "sidekiq.#{worker.class.name.underscore.gsub('/', '.')}" do
             yield
           end
 
