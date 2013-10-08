@@ -113,6 +113,7 @@ require 'harness/synchronous_queue'
 require 'harness/threaded_queue'
 
 require 'harness/null_collector'
+require 'harness/fake_collector'
 
 require 'harness/instrumentation'
 require 'harness/subscription'
