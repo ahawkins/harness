@@ -1,24 +1,11 @@
 require "harness/version"
 
 require 'statsd'
-
 require 'active_support/notifications'
-
-require 'active_support/core_ext/string'
-require 'active_support/core_ext/hash/keys'
-require 'active_support/core_ext/numeric'
-require 'active_support/core_ext/integer'
-
-require 'active_support/ordered_options'
 
 module Harness
   class Config
     attr_accessor :collector, :queue
-    attr_reader :instrument
-
-    def initialize
-      @instrument = ActiveSupport::OrderedOptions.new
-    end
   end
 
   Measurement = Struct.new(:name, :value, :rate) do
@@ -117,15 +104,5 @@ require 'harness/fake_collector'
 
 require 'harness/instrumentation'
 require 'harness/subscription'
-
-require 'harness/gauges/redis_gauge'
-require 'harness/gauges/sidekiq_gauge'
-require 'harness/gauges/memcached_gauge'
-require 'harness/gauges/haproxy_gauge'
-require 'harness/gauges/varnish_gauge'
-
-require 'harness/integration/rack_instrumenter'
-
-require 'harness/railtie' if defined?(Rails)
 
 Harness.config.queue = Harness::ThreadedQueue.new

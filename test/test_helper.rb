@@ -8,10 +8,6 @@ require 'harness'
 require 'minitest/unit'
 require 'minitest/autorun'
 
-require 'webmock/minitest'
-
-WebMock.disable_net_connect!
-
 Thread.abort_on_exception = true
 
 class MiniTest::Unit::TestCase
