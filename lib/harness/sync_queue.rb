@@ -1,5 +1,5 @@
 module Harness
-  class SynchronousQueue
+  class SyncQueue
     def push(msg)
       method_name = msg.first
       args = msg.last

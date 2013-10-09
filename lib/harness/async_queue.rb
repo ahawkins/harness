@@ -1,7 +1,7 @@
 require 'thread'
 
 module Harness
-  class ThreadedQueue
+  class AsyncQueue
     attr_reader :consumer, :queue
 
     def initialize

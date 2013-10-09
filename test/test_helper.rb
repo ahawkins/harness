@@ -13,7 +13,7 @@ Thread.abort_on_exception = true
 class MiniTest::Unit::TestCase
   def setup
     Harness.config.collector = Harness::FakeCollector.new
-    Harness.config.queue = Harness::SynchronousQueue.new
+    Harness.config.queue = Harness::SyncQueue.new
   end
 
   def assert_timer(name)

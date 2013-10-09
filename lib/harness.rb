@@ -96,8 +96,8 @@ module Harness
   end
 end
 
-require 'harness/synchronous_queue'
-require 'harness/threaded_queue'
+require 'harness/sync_queue'
+require 'harness/async_queue'
 
 require 'harness/null_collector'
 require 'harness/fake_collector'
@@ -105,4 +105,4 @@ require 'harness/fake_collector'
 require 'harness/instrumentation'
 require 'harness/subscription'
 
-Harness.config.queue = Harness::ThreadedQueue.new
+Harness.config.queue = Harness::AsyncQueue.new

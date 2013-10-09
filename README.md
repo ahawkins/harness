@@ -46,76 +46,85 @@ of the measuring. Harness integrates with common components in the
 ruby eosystem and gives you the data you need. You should put this
 data on your dashboard and pay attention to it.
 
-Harness provides these metrics for you right out of the box:
-
-* Rack
-  * response time
-  * requests / second
-  * 2xx responses / second
-  * 4xx responses / second
-  * 5xx responses / second
-* Memcached
-  * total memory
-  * key space size
-  * hit rate
-* Redis
-  * total memory
-  * timings off every command (get, set, sadd, etc)
-* Sidekiq
-  * jobs / second
-  * jobs procsssed
-  * queue depth
-  * failed count
-  * retry queue depth
-  * schedule queue depth
-* Sequel
-  * queries / second
-  * writes / second
-  * reads / second
-  * read speed
-  * write speed
-* ActiveRecord
-  * queries / second
-  * writes / second
-  * reads / second
-  * read speed
-  * write speed
-* Mongoid (Moped)
-  * queries / second
-  * writes / second
-  * reads / second
-  * read speed
-  * write speed
-* ActiveSupport (all timings & per second)
-  * reads
-  * generates
-  * fetches
-  * writes
-  * deletes
-  * hit rate
-* ActiveModel::Serializers
-  * object serialization time
-  * association serialization time
-* ActionView
-  * template render time
-  * partial render time
-* ActionMailer
-  * delivery time
-  * receive time
-* ActionController
-  * time to write fragment
-  * time to read fragment
-  * time to expire fragment
-  * action time
-  * requests / second
-
 These metrics should be enough to give you a high level overview on
 how all the different layers in your stack are performing. **Harness
 is not for drilling down into a specific request or peice of code.**
 You should use the ruby-prof for that. In short, Harness is not a
 replacement for new-relic. They serve different purposes. However, you
 could deduce all the information newrelic provides from
-instrumentation data. This list covers all the shared metrics we have
-in common. You get these for free.
+instrumentation data.
 
-## Instrumenting your Code
+## Supported Libraries & Projects
+
+Harness is an interface. All integrations use the interface.
+Instrumentation for popular libraries are provided as gems. This
+allows anyone to release instrumentations. Individual gems can be
+maintained and released separate of this gem. Here is the definite
+list.
+
+* [harness-actioncontroller](http://github.com/ahawkins/harness-actioncontroller)
+* [harness-actionmailer](http://github.com/ahawkins/harness-actionmailer)
+* [harness-actionview](http://github.com/ahawkins/harness-actionview)
+* [harness-activerecord](http://github.com/ahawkins/harness/activerecord)
+* [harness-active\_model\_serialzier](http://github.com/ahawkins/harness-active_model_serializers)
+* [harness-activesupport](http://github.com/ahawkins/harness-activesupport)
+* [harness-haproxy](http://github.com/ahawkins/harness-haproxy)
+* [harness-memcached](http://github.com/ahawkins/harness-memcached) - [dalli](http://github.com/merpahm/dalli) through harness-activesupport
+* [harness-moped](http://github.com/ahawkins/harness-moped) - (mongoid)
+* [harness-rack](http://github.com/ahawkins/harness-rack)
+* [harness-redis](http://github.com/ahawkins/harness-redis)
+* [harness-sequel](http://github.com/ahawkins/harness-sequel)
+* [harness-sidekiq](http://github.com/ahawkins/harness-sidekiq)
+* [harness-varnish](http://github.com/ahawkins/harness-varnish)
+
+## Instrumenting
+
+`Harness` provides the same interface as `statsd`. You can interact
+with `Harness` directly. This is not advised. You should `include` or
+`extend` `Harness::Instrumentation` in your class. Here are some
+examples.
+
+```ruby
+class UseCase
+  include Harness::Instrumentation
+
+  def run!
+    increment 'foo'
+    increment 'foo', 5
+
+    decrement 'foo'
+    decrement 'foo', 5
+
+    count 'foo', 1000
+
+    time 'foo' do
+      # do hard work
+    end
+  end
+end
+```
+
+That's all there is to it!
+
+## Configuring
+
+Harness has two configuration options: the queue and collector.
+`Harness::AsyncQueue` is the default queue. This means all metrics are
+logged in a separate thread to never block the main thread. This makes
+harness more performant in high traffic scenarios.
+`Harness::NullCollector`. There is also a `Harness::SyncQueue`
+useful for testing (but really used in practice).
+
+```
+Harness.collector = Statsd.new 'something.com'
+Harness.queue = Harness::AsyncQueue
+```
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+

@@ -3,7 +3,7 @@ require_relative 'test_helper'
 class AcceptanceTest < MiniTest::Unit::TestCase
   def test_works_with_actual_statsd
     Harness.config.collector = Statsd.new
-    Harness.config.queue = Harness::SynchronousQueue.new
+    Harness.config.queue = Harness::SyncQueue.new
 
     Harness.increment 'foo', 0.6
     Harness.decrement 'foo', 0.5
