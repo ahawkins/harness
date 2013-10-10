@@ -4,7 +4,7 @@ require File.expand_path('../lib/harness/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["ahawkins"]
   gem.email         = ["adam@hawkins.io"]
-  gem.description   = %q{Log ActiveSupport::Notifications to various services like Librato or StatsD}
+  gem.description   = %q{Collect high level application performance metrics and forward them for analysis}
   gem.summary       = %q{}
   gem.homepage      = "https://github.com/ahawkins/harness"
 
