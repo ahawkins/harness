@@ -21,6 +21,11 @@ class InstrumentationTest < MiniTest::Unit::TestCase
     assert_decrement 'foo'
   end
 
+  def test_can_use_count
+    worker.count 'foo', 1, 0.5
+    assert_counter 'foo'
+  end
+
   def test_can_use_gauges
     worker.gauge 'foo', 5, 0.5
     assert_gauge 'foo'
@@ -47,6 +52,7 @@ class InstrumentationTest < MiniTest::Unit::TestCase
 
     assert_respond_to extended, :increment
     assert_respond_to extended, :decrement
+    assert_respond_to extended, :count
     assert_respond_to extended, :time
     assert_respond_to extended, :timing
     assert_respond_to extended, :gauge

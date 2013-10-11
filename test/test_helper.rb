@@ -40,6 +40,12 @@ class MiniTest::Unit::TestCase
     assert gauge, "gauge #{name} not logged!"
   end
 
+  def assert_counter(name)
+    refute_empty counters
+    counter = counters.find { |g| g.name == name }
+    assert counter, "counter #{name} not logged!"
+  end
+
   def instrument(name, data = {}, &block)
     ActiveSupport::Notifications.instrument name, data, &block
   end

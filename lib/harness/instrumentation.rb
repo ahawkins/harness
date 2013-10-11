@@ -19,5 +19,9 @@ module Harness
     def decrement(*args)
       Harness.decrement *args
     end
+
+    def count(*args)
+      Harness.count *args
+    end
   end
 end
