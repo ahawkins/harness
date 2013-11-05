@@ -11,6 +11,10 @@ class NullCollectorTest < MiniTest::Unit::TestCase
     statsd.increment 'foo', 5, 0.5
   end
 
+  def test_respond_to_decrement
+    statsd.decrement 'foo', 5, 0.5
+  end
+
   def test_responds_to_timing
     statsd.timing 'foo', 5, 0.5
   end

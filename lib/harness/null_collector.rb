@@ -4,6 +4,10 @@ module Harness
 
     end
 
+    def decrement(*args)
+
+    end
+
     def count(*args)
 
     end
