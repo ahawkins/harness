@@ -1,7 +1,6 @@
 require "harness/version"
 
 require 'statsd'
-require 'active_support/notifications'
 
 module Harness
   class Config
@@ -103,6 +102,5 @@ require 'harness/null_collector'
 require 'harness/fake_collector'
 
 require 'harness/instrumentation'
-require 'harness/subscription'
 
 Harness.config.queue = Harness::AsyncQueue.new

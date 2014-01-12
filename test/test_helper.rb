@@ -46,10 +46,6 @@ class MiniTest::Unit::TestCase
     assert counter, "counter #{name} not logged!"
   end
 
-  def instrument(name, data = {}, &block)
-    ActiveSupport::Notifications.instrument name, data, &block
-  end
-
   def collector
     Harness.config.collector
   end
