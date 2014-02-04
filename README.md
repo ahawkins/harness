@@ -116,8 +116,8 @@ harness more performant in high traffic scenarios.
 useful for testing (but really used in practice).
 
 ```
-Harness.collector = Statsd.new 'something.com'
-Harness.queue = Harness::AsyncQueue
+Harness.config.collector = Statsd.new 'something.com'
+Harness.config.queue = Harness::AsyncQueue
 ```
 
 ## Contributing
