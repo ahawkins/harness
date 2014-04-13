@@ -4,7 +4,9 @@ require 'harness'
 
 require 'minitest/unit'
 
-unless ENV.key?('MUTANT')
+require 'mutant-minitest'
+
+unless Mutant::Minitest.active?
   require 'minitest/autorun'
 end
 
