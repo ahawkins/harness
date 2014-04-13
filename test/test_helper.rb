@@ -1,12 +1,12 @@
 require 'bundler/setup'
 
-require 'simplecov'
-SimpleCov.start
-
 require 'harness'
 
 require 'minitest/unit'
-require 'minitest/autorun'
+
+unless ENV.key?('MUTANT')
+  require 'minitest/autorun'
+end
 
 Thread.abort_on_exception = true
 
