@@ -12,8 +12,8 @@ module Harness
 
     end
 
-    def time(*args, &block)
-      yield block
+    def time(*args)
+      yield
     end
 
     def timing(*args)
