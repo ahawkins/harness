@@ -1,8 +1,8 @@
 module Harness
   class FakeCollector
-    Increment = Struct.new(:name, :amount, :rate)
-    Decrement = Struct.new(:name, :amount, :rate)
-    Gauge = Struct.new(:name, :value, :rate)
+    Increment = Struct.new(:name, :rate)
+    Decrement = Struct.new(:name, :rate)
+    Measurement = Struct.new(:name, :value, :rate)
 
     attr_reader :gauges, :counters, :timers, :increments, :decrements
 
@@ -11,7 +11,7 @@ module Harness
     end
 
     def timing(*args)
-      timers << Harness::Timer.new(*args)
+      timers << Measurement.new(*args)
     end
 
     def time(stat, sample_rate = 1)
@@ -30,11 +30,11 @@ module Harness
     end
 
     def count(*args)
-      counters << Harness::Counter.new(*args)
+      counters << Measurement.new(*args)
     end
 
     def gauge(*args)
-      gauges << Gauge.new(*args)
+      gauges << Measurement.new(*args)
     end
   end
 end

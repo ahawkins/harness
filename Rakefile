@@ -7,4 +7,8 @@ Rake::TestTask.new(:test) do |test|
   test.pattern = 'test/**/*_test.rb'
 end
 
+task :mutant do
+  sh "bundle exec mutant -I lib -r harness --use minitest '::Harness'"
+end
+
 task :default => :test
