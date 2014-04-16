@@ -2,10 +2,11 @@ require 'thread'
 
 module Harness
   class AsyncQueue
-    attr_reader :consumer, :queue
+    attr_reader :queue, :consumer
 
-    def initialize
-      @queue = Queue.new
+    def initialize(queue = Queue.new, collector = Harness.collector)
+      @queue = queue
+
       @consumer = Thread.new do
         loop do
           msg = queue.pop
@@ -22,8 +23,12 @@ module Harness
       queue.push msg
     end
 
-    def collector
-      Harness.collector
+    def stop
+      consumer.kill
+    end
+
+    def up?
+      consumer.alive?
     end
   end
 end

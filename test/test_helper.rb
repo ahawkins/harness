@@ -8,8 +8,6 @@ require 'mutant-minitest'
 
 require 'minitest/autorun' unless Mutant::Minitest.active?
 
-Thread.abort_on_exception = true
-
 class MiniTest::Unit::TestCase
   def setup
     Harness.config.collector = Harness::FakeCollector.new
