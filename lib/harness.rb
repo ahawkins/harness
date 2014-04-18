@@ -1,14 +1,16 @@
 require "harness/version"
 
 require 'statsd'
+require 'singleton'
 
 module Harness
-  class Config
+  Config = Class.new do
+    include Singleton
     attr_accessor :collector, :queue
-  end
+  end.instance
 
   def self.config
-    @config ||= Config.new
+    Config
   end
 
   def self.increment(stat, sample_rate = 1)

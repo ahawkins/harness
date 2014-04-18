@@ -18,10 +18,6 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_config_returns_configuration_instance
-    assert_instance_of Harness::Config, Harness.config
-  end
-
   def test_time_deltas_are_calculated_in_milliseconds
     start = Time.now
     finish = start + 2.5
